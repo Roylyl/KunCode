@@ -1,14 +1,10 @@
 name: Component Fixtures
 
 on:
-  push:
-    branches:
-      - main
-      - 'release/*'
-  pull_request:
-    branches:
-      - main
-      - 'release/*'
+  # The upstream screenshot baseline and status integration require the
+  # Code - OSS internal test infrastructure. Run this workflow manually when
+  # the corresponding fixtures are intentionally being maintained.
+  workflow_dispatch:
 
 permissions:
   contents: read

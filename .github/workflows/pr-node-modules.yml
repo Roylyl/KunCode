@@ -1,9 +1,10 @@
 name: Code OSS (node_modules)
 
 on:
-  push:
-    branches:
-      - main
+  # This workflow depends on the upstream Code - OSS self-hosted runner and
+  # private cache environment. Keep it available for manual maintenance runs
+  # without presenting a misleading failure on normal KunCode pushes.
+  workflow_dispatch:
 
 permissions: {}
 
