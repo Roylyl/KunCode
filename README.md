@@ -1,77 +1,81 @@
-# Visual Studio Code - Open Source ("Code - OSS")
-[![Feature Requests](https://img.shields.io/github/issues/microsoft/vscode/feature-request.svg)](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-[![Bugs](https://img.shields.io/github/issues/microsoft/vscode/bug.svg)](https://github.com/microsoft/vscode/issues?utf8=✓&q=is%3Aissue+is%3Aopen+label%3Abug)
-[![Gitter](https://img.shields.io/badge/chat-on%20gitter-yellow.svg)](https://gitter.im/Microsoft/vscode)
-
-## The Repository
-
-This repository ("`Code - OSS`") is where we (Microsoft) develop the [Visual Studio Code](https://code.visualstudio.com) product together with the community. Not only do we work on code and issues here, but we also publish our [roadmap](https://github.com/microsoft/vscode/wiki/Roadmap), [monthly iteration plans](https://github.com/microsoft/vscode/wiki/Iteration-Plans), and our [endgame plans](https://github.com/microsoft/vscode/wiki/Running-the-Endgame). This source code is available to everyone under the standard [MIT license](https://github.com/microsoft/vscode/blob/main/LICENSE.txt).
-
-## Visual Studio Code
-
 <p align="center">
-  <img alt="VS Code in action" src="https://github.com/user-attachments/assets/56af271c-949d-454c-a3ea-16188c063414">
+  <img src="resources/kuncode/capybara-pixel.png" alt="KunCode 水豚图标" width="128" />
 </p>
 
-[Visual Studio Code](https://code.visualstudio.com) is a distribution of the `Code - OSS` repository with Microsoft-specific customizations released under a traditional [Microsoft product license](https://code.visualstudio.com/License/).
+<h1 align="center">KunCode</h1>
 
-[Visual Studio Code](https://code.visualstudio.com) combines the simplicity of a code editor with what developers need for their core edit-build-debug cycle. It provides comprehensive code editing, navigation, and understanding support along with lightweight debugging, a rich extensibility model, and lightweight integration with existing tools.
+<p align="center">
+  603 官方 IDE · 让写代码变得更轻松
+</p>
 
-Visual Studio Code is updated monthly with new features and bug fixes. You can download it for Windows, macOS, and Linux on the [Visual Studio Code website](https://code.visualstudio.com/Download). To get the latest releases every day, install the [Insiders build](https://code.visualstudio.com/insiders).
+<p align="center">
+  <a href="https://github.com/Roylyl/KunCode/releases/latest"><img src="https://img.shields.io/github/v/release/Roylyl/KunCode?display_name=tag&label=最新版本" alt="最新版本" /></a>
+  <a href="https://github.com/Roylyl/KunCode/releases"><img src="https://img.shields.io/github/downloads/Roylyl/KunCode/total?label=下载量" alt="下载量" /></a>
+  <a href="https://github.com/Roylyl/KunCode/blob/main/LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="许可证" /></a>
+</p>
 
-## Contributing
+<p align="center">
+  <a href="#下载安装">下载安装</a> ·
+  <a href="#主要功能">主要功能</a> ·
+  <a href="#从源码运行">从源码运行</a> ·
+  <a href="#参与贡献">参与贡献</a>
+</p>
 
-There are many ways in which you can participate in this project, for example:
+## KunCode 是什么
 
-* [Submit bugs and feature requests](https://github.com/microsoft/vscode/issues), and help us verify them as they are checked in
-* Review [source code changes](https://github.com/microsoft/vscode/pulls)
-* Review the [documentation](https://github.com/microsoft/vscode-docs) and make pull requests for anything from typos to new content.
+KunCode 是由 603 打造的跨平台开发工具，基于 Code - OSS 定制，兼顾熟悉的编辑器体验与更贴近中文开发者的产品设计。
 
-If you are interested in fixing issues and contributing directly to the codebase, please see the document [How to Contribute](https://github.com/microsoft/vscode/wiki/How-to-Contribute), which covers the following:
+KunCode 已适配 Windows 与 macOS，提供代码编辑、项目管理、终端、调试、扩展和 AI 辅助等能力。macOS 版本在保持 Windows 版本核心功能的基础上，针对 Mac 原生环境进行了适配。
 
-* [How to build and run from source](https://github.com/microsoft/vscode/wiki/How-to-Contribute)
-* [The development workflow, including debugging and running tests](https://github.com/microsoft/vscode/wiki/How-to-Contribute#debugging)
-* [Coding guidelines](https://github.com/microsoft/vscode/wiki/Coding-Guidelines)
-* [Submitting pull requests](https://github.com/microsoft/vscode/wiki/How-to-Contribute#pull-requests)
-* [Finding an issue to work on](https://github.com/microsoft/vscode/wiki/How-to-Contribute#where-to-contribute)
-* [Contributing to translations](https://aka.ms/vscodeloc)
+## 主要功能
 
-## Feedback
+- **完整的开发工作台**：代码编辑、文件管理、项目管理、终端与调试工具集中在一个窗口中。
+- **多语言开发支持**：支持 Python、C/C++、Java、ESP-IDF 等常用开发场景，并可通过扩展继续扩展能力。
+- **困困 AI 助手**：在侧边栏中与困困 AI 对话，辅助理解代码、学习编程和解决开发问题。
+- **Agent 逐字输出**：Agent 回复支持逐字输出，过程更清晰，交互更自然。
+- **Windows 与 macOS 双平台**：Windows 提供 x64 安装包；macOS 提供 `.pkg` 安装包，并适配 Apple Silicon 环境。
+- **KunCode 品牌体验**：像素风水豚应用图标、水豚绿色主题和简体中文界面贯穿 macOS 版本体验。
 
-* Ask a question on [Stack Overflow](https://stackoverflow.com/questions/tagged/vscode)
-* [Request a new feature](CONTRIBUTING.md)
-* Upvote [popular feature requests](https://github.com/microsoft/vscode/issues?q=is%3Aopen+is%3Aissue+label%3Afeature-request+sort%3Areactions-%2B1-desc)
-* [File an issue](https://github.com/microsoft/vscode/issues)
-* Connect with the extension author community on [GitHub Discussions](https://github.com/microsoft/vscode-discussions/discussions) or [Slack](https://aka.ms/vscode-dev-community)
-* Follow [@code](https://x.com/code) and let us know what you think!
+## 下载安装
 
-See our [wiki](https://github.com/microsoft/vscode/wiki/Feedback-Channels) for a description of each of these channels and information on some other available community-driven channels.
+请前往 [Releases](https://github.com/Roylyl/KunCode/releases) 下载最新版本。
 
-## Related Projects
+当前版本：[v1.133.0｜Windows 与 macOS 版本](https://github.com/Roylyl/KunCode/releases/tag/v1.133.0)
 
-Many of the core components and extensions to VS Code live in their own repositories on GitHub. For example, the [node debug adapter](https://github.com/microsoft/vscode-node-debug) and the [mono debug adapter](https://github.com/microsoft/vscode-mono-debug) repositories are separate from each other. For a complete list, please visit the [Related Projects](https://github.com/microsoft/vscode/wiki/Related-Projects) page on our [wiki](https://github.com/microsoft/vscode/wiki).
+| 平台 | 安装包 | 说明 |
+| --- | --- | --- |
+| Windows x64 | [KunCodeSetup-x64-1.133.0.exe](https://github.com/Roylyl/KunCode/releases/download/v1.133.0/KunCodeSetup-x64-1.133.0.exe) | Windows 安装程序 |
+| macOS | [KunCode.pkg](https://github.com/Roylyl/KunCode/releases/download/v1.133.0/KunCode.pkg) | macOS 安装程序 |
 
-## Bundled Extensions
+> macOS 首次安装或打开时，如果系统提示安全确认，请在“系统设置 → 隐私与安全性”中允许打开 KunCode。
 
-VS Code includes a set of built-in extensions located in the [extensions](extensions) folder, including grammars and snippets for many languages. Extensions that provide rich language support (inline suggestions, Go to Definition) for a language have the suffix `language-features`. For example, the `json` extension provides coloring for `JSON` and the `json-language-features` extension provides rich language support for `JSON`.
+## 从源码运行
 
-## Development Container
+KunCode 基于 Code - OSS 构建。开发环境需要 Node.js LTS、Yarn，以及能够完成 Electron 构建的本地工具链。
 
-This repository includes a Visual Studio Code Dev Containers / GitHub Codespaces development container.
+```bash
+git clone https://github.com/Roylyl/KunCode.git
+cd KunCode
+yarn
+yarn gulp compile
+```
 
-* For [Dev Containers](https://aka.ms/vscode-remote/download/containers), use the **Dev Containers: Clone Repository in Container Volume...** command, which creates a Docker volume for better disk I/O on macOS and Windows.
-  * If you already have VS Code and Docker installed, you can also click [here](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/microsoft/vscode) to get started. This will cause VS Code to automatically install the Dev Containers extension if needed, clone the source code into a container volume, and spin up a dev container for use.
+完成编译后，可根据目标平台使用仓库现有的构建流程生成安装包或归档文件。构建产物会生成在 `.build/` 和 `out/` 目录下。不同平台的打包还需要对应的系统工具链，完整说明请参考 [Code - OSS 构建文档](https://github.com/microsoft/vscode/wiki/How-to-Contribute)。
 
-* For Codespaces, install the [GitHub Codespaces](https://marketplace.visualstudio.com/items?itemName=GitHub.codespaces) extension in VS Code, and use the **Codespaces: Create New Codespace** command.
+## 项目结构
 
-Docker / the Codespace should have at least **4 cores and 6 GB of RAM (8 GB recommended)** to run a full build. See the [development container README](.devcontainer/README.md) for more information.
+- `src/`：编辑器核心源码
+- `extensions/`：内置扩展
+- `resources/kuncode/`：KunCode 品牌、图标与安装资源
+- `product.json`：KunCode 产品配置
+- `.github/`：持续集成与项目协作配置
 
-## Code of Conduct
+## 参与贡献
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+欢迎提交 Issue、功能建议和 Pull Request。提交前请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，并确保改动符合项目现有的代码规范和测试要求。
 
-## License
+## 致谢与许可证
 
-Copyright (c) Microsoft Corporation. All rights reserved.
+KunCode 基于 [Code - OSS](https://github.com/microsoft/vscode) 定制，感谢开源社区的长期贡献。
 
-Licensed under the [MIT](LICENSE.txt) license.
+本项目使用 [MIT License](LICENSE.txt) 发布。仓库中的第三方组件与依赖请同时参考 [ThirdPartyNotices.txt](ThirdPartyNotices.txt)。
