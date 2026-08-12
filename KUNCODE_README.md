@@ -1,12 +1,13 @@
 # KunCode
 
-KunCode is a Windows-focused Code - OSS customization with a pixel-art capybara visual identity.
+KunCode is an independent cross-platform Code - OSS customization maintained by 603, with Windows and macOS support and a pixel-art capybara visual identity.
 
 ## Current customization
 
 - Product branding: KunCode
-- Windows application/data identifiers: `kuncode` / `.kuncode`
+- Application/data identifiers: `kuncode` / `.kuncode`
 - Pixel capybara branding asset: `resources/kuncode/capybara-pixel.png`
+- macOS bundle identifier: `com.kuncode.app`
 
 ## Build prerequisites
 
@@ -18,6 +19,6 @@ yarn gulp compile
 yarn gulp vscode-win32-x64-archive
 ```
 
-The generated Windows archive is placed under `.build/win32-x64-archive`.
+Build output is placed under `.build/` and `out/`.
 
-This repository is based on Code - OSS. Review the upstream license and third-party notices before redistribution.
+This repository is based on Code - OSS and is not affiliated with Microsoft. Review [LICENSE.txt](LICENSE.txt) and [ThirdPartyNotices.txt](ThirdPartyNotices.txt) before redistribution.

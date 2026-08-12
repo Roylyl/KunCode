@@ -1,14 +1,13 @@
-<!-- BEGIN MICROSOFT SECURITY.MD V1.0.0 BLOCK -->
+# 安全问题报告
 
-## Security
+请不要在公开 Issue、Pull Request 或讨论区发布未修复的安全漏洞、利用代码、访问令牌或其他敏感信息。
 
-Microsoft takes the security of our software products and services seriously, which
-includes all source code repositories in our GitHub organizations.
+请通过 KunCode 仓库的私密安全报告功能提交：
 
-**Please do not report security vulnerabilities through public GitHub issues.**
+1. 打开 [Security](https://github.com/Roylyl/KunCode/security) 页面。
+2. 选择 **Report a vulnerability**，创建私密漏洞报告。
+3. 提供受影响版本、复现步骤、影响范围和建议修复方案。
 
-For security reporting information, locations, contact information, and policies,
-please review the latest guidance for Microsoft repositories at
-[https://aka.ms/SECURITY.md](https://aka.ms/SECURITY.md).
+如果无法使用私密报告功能，请先提交一个不包含漏洞细节的 Issue，请求维护者提供私下沟通方式。
 
-<!-- END MICROSOFT SECURITY.MD BLOCK -->
+我们会尽力确认、修复并在适当时公开披露已修复的问题。请不要在报告中包含真实用户数据或生产环境凭据。

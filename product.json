@@ -14,8 +14,8 @@
 		"resourceUrlTemplate": "https://open-vsx.org/api/{publisher}/{name}/{version}/file/{path}"
 	},
 	"licenseName": "MIT",
-	"licenseUrl": "https://github.com/microsoft/vscode/blob/main/LICENSE.txt",
-	"serverLicenseUrl": "https://github.com/microsoft/vscode/blob/main/LICENSE.txt",
+	"licenseUrl": "https://github.com/Roylyl/KunCode/blob/main/LICENSE.txt",
+	"serverLicenseUrl": "https://github.com/Roylyl/KunCode/blob/main/LICENSE.txt",
 	"serverGreeting": [],
 	"serverLicense": [],
 	"serverLicensePrompt": "",

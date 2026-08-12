@@ -1,14 +1,19 @@
 ---
-name: Feature request
-about: Suggest an idea for this project
-title: ''
-labels: ''
+name: 功能建议
+about: 提议一个对 KunCode 有帮助的新功能
+title: "[Feature] "
+labels: enhancement
 assignees: ''
-
 ---
 
-<!-- ⚠️⚠️ Do Not Delete This! feature_request_template ⚠️⚠️ -->
-<!-- Please read our Rules of Conduct: https://opensource.microsoft.com/codeofconduct/ -->
-<!-- Please search existing issues to avoid creating duplicates. -->
+## 功能概述
 
-<!-- Describe the feature you'd like. -->
+## 使用场景
+
+<!-- 谁会在什么情况下使用这个功能？目前有什么痛点？ -->
+
+## 建议方案
+
+## 其他方案
+
+## 补充材料

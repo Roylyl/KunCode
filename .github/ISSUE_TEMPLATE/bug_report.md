@@ -1,27 +1,32 @@
 ---
-name: Bug report
-about: Create a report to help us improve
-title: ''
-labels: ''
+name: Bug 报告
+about: 报告一个可以复现的问题
+title: "[Bug] "
+labels: bug
 assignees: ''
-
 ---
 
-<!-- ⚠️⚠️ Do Not Delete This! bug_report_template ⚠️⚠️ -->
-<!-- Please read our Rules of Conduct: https://opensource.microsoft.com/codeofconduct/ -->
-<!-- 🕮 Read our guide about submitting issues: https://github.com/microsoft/vscode/wiki/Submitting-Bugs-and-Suggestions -->
-<!-- 🔎 Search existing issues to avoid creating duplicates. -->
-<!-- 🧪 Test using the latest Insiders build to see if your issue has already been fixed: https://code.visualstudio.com/insiders/ -->
-<!-- 💡 Instead of creating your report here, use 'Report Issue' from the 'Help' menu in VS Code to pre-fill useful information. -->
-<!-- 🔧 Launch with `code --disable-extensions` to check. -->
-Does this issue occur when all extensions are disabled?: Yes/No
+## 问题描述
 
-<!-- 🪓 If you answered No above, use 'Help: Start Extension Bisect' from Command Palette to try to identify the cause. -->
-<!-- 📣 Issues caused by an extension need to be reported directly to the extension publisher. The 'Help > Report Issue' dialog can assist with this. -->
-- VS Code Version: 
-- OS Version: 
+<!-- 清楚、简洁地描述问题。 -->
 
-Steps to Reproduce:
+## 环境信息
 
-1. 
+- KunCode 版本：
+- 操作系统：
+- 芯片架构：
+- 安装方式：
+
+## 复现步骤
+
+1.
 2.
+3.
+
+## 预期行为
+
+## 实际行为
+
+## 补充材料
+
+<!-- 可附日志、截图、录屏或最小复现项目。请移除密钥和个人敏感信息。 -->
