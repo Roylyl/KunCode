@@ -1,14 +1,9 @@
 name: Monaco Editor checks
 
 on:
-  push:
-    branches:
-      - main
-      - release/*
-  pull_request:
-    branches:
-      - main
-      - release/*
+  # This is an upstream Monaco consistency workflow. Keep it available for
+  # intentional manual runs without requiring it for normal KunCode changes.
+  workflow_dispatch:
 permissions: {}
 
 jobs:
