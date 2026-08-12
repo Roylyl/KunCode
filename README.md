@@ -27,6 +27,8 @@ KunCode 是由 603 打造的跨平台开发工具，基于 Code - OSS 定制，�
 
 KunCode 已适配 Windows 与 macOS，提供代码编辑、项目管理、终端、调试、扩展和 AI 辅助等能力。macOS 版本在保持 Windows 版本核心功能的基础上，针对 Mac 原生环境进行了适配。
 
+KunCode 是独立的第三方开源项目，由 603 维护，与 Microsoft Corporation 没有隶属、授权、赞助或官方合作关系。Microsoft、Visual Studio Code 及相关标识属于其各自权利人的商标；本项目不使用微软官方品牌标识，也不代表微软发行产品。
+
 ## 主要功能
 
 - **完整的开发工作台**：代码编辑、文件管理、项目管理、终端与调试工具集中在一个窗口中。
@@ -78,4 +80,4 @@ yarn gulp compile
 
 KunCode 基于 [Code - OSS](https://github.com/microsoft/vscode) 定制，感谢开源社区的长期贡献。
 
-本项目使用 [MIT License](LICENSE.txt) 发布。仓库中的第三方组件与依赖请同时参考 [ThirdPartyNotices.txt](ThirdPartyNotices.txt)。
+本项目使用 [MIT License](LICENSE.txt) 发布，并保留上游 Code - OSS 的版权和许可声明。仓库中的第三方组件与依赖请同时参考 [ThirdPartyNotices.txt](ThirdPartyNotices.txt)；各依赖的商标和版权仍归其权利人所有。
