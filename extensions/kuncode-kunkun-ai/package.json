@@ -1,0 +1,32 @@
+{
+  "name": "kuncode-kunkun-ai",
+  "displayName": "困困 AI",
+  "description": "KunCode 内置的困困 AI 助手",
+  "version": "1.0.0",
+  "publisher": "kuncode",
+  "license": "MIT",
+  "engines": { "vscode": "*" },
+  "main": "./extension.js",
+  "enabledApiProposals": ["chatParticipantPrivate", "defaultChatParticipant", "chatProvider"],
+  "activationEvents": ["onStartupFinished", "onChatParticipant:kuncode.kunkun"],
+  "contributes": {
+    "languageModelChatProviders": [
+      { "vendor": "kuncode", "displayName": "Kunkun AI" }
+    ],
+    "chatParticipants": [
+      {
+        "id": "kuncode.kunkun",
+        "name": "kunkun",
+        "fullName": "Kunkun AI",
+        "description": "KunCode 智能编程与成长助手",
+        "isDefault": true,
+        "commands": [
+          { "name": "random", "description": "随机抽取一条困困语录" },
+          { "name": "about", "description": "关于困困 AI" }
+        ],
+        "modes": ["ask"]
+      }
+    ]
+  },
+  "categories": ["Other"]
+}

@@ -1,0 +1,66 @@
+name: KunCode Repository Checks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuncode-repository-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-checks:
+    name: Repository hygiene and configuration
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout KunCode
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Validate core JSON files
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          for filename in (
+              "package.json",
+              "package-lock.json",
+              "product.json",
+              "cgmanifest.json",
+          ):
+              json.loads(Path(filename).read_text(encoding="utf-8"))
+              print(f"validated {filename}")
+          PY
+
+      - name: Reject tracked generated artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          generated=$(git ls-files | grep -E '(^|/)(node_modules|\.build|coverage|test-results)(/|$)|(^|/)(\.DS_Store|\.eslintcache)$|\.tsbuildinfo$' || true)
+          if [[ -n "$generated" ]]; then
+            echo "Generated files must not be committed:"
+            echo "$generated"
+            exit 1
+          fi
+
+      - name: Reject oversized Git files
+        shell: bash
+        run: |
+          set -euo pipefail
+          oversized=$(find . -path './.git' -prune -o -type f -size +95M -print)
+          if [[ -n "$oversized" ]]; then
+            echo "Files larger than 95 MiB must use a release asset or external storage:"
+            echo "$oversized"
+            exit 1
+          fi
