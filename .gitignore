@@ -52,4 +52,27 @@ dist
 /*.pkg
 /*.dmg
 /KunCodeSetup-*.exe
+/KunCode-Windows-*.exe
 /KunCode_*.zip
+/KunCode-*.zip
+
+# Local tooling and verification output; build/ contains tracked source code.
+/.npm/
+/.idea/
+/.venv/
+/venv/
+/tmp/
+/temp/
+/playwright-report/
+__pycache__/
+*.py[cod]
+*.swp
+*.swo
+npm-debug.log*
+._*
+
+# Root environment overrides; preserve documented templates and test fixtures.
+/.env
+/.env.*
+!/.env.example
+!/.env.*.example

@@ -53,24 +53,60 @@ KunCode 是独立的第三方开源项目，由 603 维护，与 Microsoft Corpo
 
 ## 从源码运行
 
-KunCode 基于 Code - OSS 构建。开发环境需要 Node.js LTS、Yarn，以及能够完成 Electron 构建的本地工具链。
+KunCode 基于 Code - OSS 构建。请先准备 Git、[.nvmrc](.nvmrc) 指定的 **Node.js 24.18.0** 或同一 24 主版本下的更新版本，以及 **npm 低于 12 的版本**。安装脚本会检查这些条件，并拒绝使用 Yarn；升级工具版本时以 [.nvmrc](.nvmrc) 和 [安装检查](build/npm/preinstall.ts) 为准。
+
+依赖包含 Electron 与原生模块。Windows 需要兼容的 Visual Studio C++ 构建工具；macOS 需要 Xcode Command Line Tools；构建 Rust CLI 时另需 Rust 工具链。具体系统依赖见 [Code - OSS 构建文档](https://github.com/microsoft/vscode/wiki/How-to-Contribute)。依赖安装和首次启动会下载 npm 包、Electron 与内置扩展，需要网络访问。
 
 ```bash
 git clone https://github.com/Roylyl/KunCode.git
 cd KunCode
-yarn
-yarn gulp compile
+npm ci
+npm run compile
 ```
 
-完成编译后，可根据目标平台使用仓库现有的构建流程生成安装包或归档文件。构建产物会生成在 `.build/` 和 `out/` 目录下。不同平台的打包还需要对应的系统工具链，完整说明请参考 [Code - OSS 构建文档](https://github.com/microsoft/vscode/wiki/How-to-Contribute)。
+`npm run compile` 同时编译编辑器客户端和内置 Copilot 扩展。随后在仓库根目录启动开发版：
+
+| 平台 | 启动命令 |
+| --- | --- |
+| macOS / Linux | `./scripts/code.sh` |
+| Windows PowerShell | `.\scripts\code.bat` |
+
+持续开发时可在一个终端运行 `npm run watch`，在另一个终端启动应用；停止监听时按 `Ctrl+C`。编译和启动命令不会自动生成发行安装包。
+
+### 验证改动
+
+安装依赖并编译后，按改动范围选择检查：
+
+```bash
+npm run typecheck-client
+npm run test-node
+git diff --check
+```
+
+`typecheck-client` 检查编辑器客户端类型，`test-node` 运行 Node 测试；二者不覆盖全部扩展或 Electron 界面。涉及窗口、编辑器或平台行为时，还应启动开发版实际验证，并根据 [测试说明](test/README.md) 使用 `scripts/test.sh` / `scripts/test.bat` 等对应测试入口。根目录的 `npm test` 会提示选择测试脚本并返回失败，不是完整测试入口。
+
+### 构建产物与发布
+
+开发运行使用 `.build/`、`out/` 及扩展各自的输出目录；发行任务还可能生成 `out-vscode*`，并将平台应用放到仓库的同级 `VSCode-<platform>-<arch>` 目录。不要将这些目录误认为需要提交的源码。
+
+不同平台的安装包还需要各自的打包、签名与验证步骤，不能只运行 `compile`。可通过 `npm run gulp -- --tasks-simple` 查看当前工程的任务，并查阅 `build/gulpfile.vscode.ts`、`build/gulpfile.vscode.win32.ts` 等实现。发行安装包与归档上传到 [Releases](https://github.com/Roylyl/KunCode/releases)，不放入 Git 源码历史。
 
 ## 项目结构
 
 - `src/`：编辑器核心源码
 - `extensions/`：内置扩展
+- `build/`：构建与打包源码，需保留在版本控制中
+- `scripts/`、`test/`：开发运行脚本与测试入口
+- `cli/`：Rust CLI 工程
 - `resources/kuncode/`：KunCode 品牌、图标与安装资源
 - `product.json`：KunCode 产品配置
 - `.github/`：持续集成与项目协作配置
+
+### 仓库卫生
+
+[.gitignore](.gitignore) 排除 `node_modules/`、`.build/`、编译输出、测试报告、常见本地缓存和根目录发行安装包。临时截图与验证结果可放在根目录 `tmp/`。根目录 `.env` 与 `.env.*` 覆盖文件不提交，`.env.example` 和 `.env.*.example` 模板可提交。
+
+保留 `build/` 中的正式构建脚本、`package-lock.json`、Rust 锁文件、品牌资源、测试源码与夹具；不要为方便而统一忽略整个 `build/`、所有归档或所有环境示例。忽略规则不会自动移除已经跟踪的文件，提交前应检查 `git status --short` 与实际差异。
 
 ## 参与贡献
 

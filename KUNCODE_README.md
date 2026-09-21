@@ -11,14 +11,13 @@ KunCode is an independent cross-platform Code - OSS customization maintained by 
 
 ## Build prerequisites
 
-Install Node.js LTS and Yarn, then from this directory run:
+Use Node.js 24.18.0, or a newer release in the same 24.x line, as specified by [`.nvmrc`](.nvmrc). The install check requires npm below version 12 and rejects Yarn. From the repository root, run:
 
-```powershell
-yarn
-yarn gulp compile
-yarn gulp vscode-win32-x64-archive
+```sh
+npm ci
+npm run compile
 ```
 
-Build output is placed under `.build/` and `out/`.
+Launch the development build with `./scripts/code.sh` on macOS/Linux or `.\scripts\code.bat` on Windows. Compilation output is placed under `.build/`, `out/`, and extension-specific output directories; release packaging is a separate platform-specific workflow. See the main [README](README.md) for current setup, validation, and packaging guidance.
 
 This repository is based on Code - OSS and is not affiliated with Microsoft. Review [LICENSE.txt](LICENSE.txt) and [ThirdPartyNotices.txt](ThirdPartyNotices.txt) before redistribution.
