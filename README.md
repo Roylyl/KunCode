@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="resources/kuncode/capybara-pixel.png" alt="KunCode 水豚图标" width="128" />
+  <img src="resources/kuncode/capybara-pixel.png" alt="KunCode 水豚图标" width="120" />
 </p>
 
 <h1 align="center">KunCode</h1>
@@ -9,15 +9,20 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Roylyl/KunCode/releases/latest"><img src="https://img.shields.io/github/v/release/Roylyl/KunCode?display_name=tag&label=%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC" alt="最新版本" /></a>
-  <a href="https://github.com/Roylyl/KunCode/releases"><img src="https://img.shields.io/github/downloads/Roylyl/KunCode/total?label=%E4%B8%8B%E8%BD%BD%E9%87%8F" alt="下载量" /></a>
-  <a href="https://github.com/Roylyl/KunCode/blob/main/LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="许可证" /></a>
+  <a href="https://github.com/Roylyl/KunCode/actions/workflows/kuncode-repository-checks.yml"><img src="https://img.shields.io/github/actions/workflow/status/Roylyl/KunCode/kuncode-repository-checks.yml?branch=main&style=flat-square&label=repository%20checks" alt="仓库检查" /></a>
+  <a href="https://github.com/Roylyl/KunCode/releases/latest"><img src="https://img.shields.io/github/v/release/Roylyl/KunCode?display_name=tag&style=flat-square&label=release" alt="最新版本" /></a>
+  <a href="https://github.com/Roylyl/KunCode/releases"><img src="https://img.shields.io/github/downloads/Roylyl/KunCode/total?style=flat-square&label=downloads" alt="下载量" /></a>
+  <a href="https://github.com/Roylyl/KunCode/stargazers"><img src="https://img.shields.io/github/stars/Roylyl/KunCode?style=flat-square" alt="GitHub Stars" /></a>
+  <a href="https://github.com/Roylyl/KunCode/forks"><img src="https://img.shields.io/github/forks/Roylyl/KunCode?style=flat-square" alt="GitHub Forks" /></a>
+  <a href="https://github.com/Roylyl/KunCode/blob/main/LICENSE.txt"><img src="https://img.shields.io/github/license/Roylyl/KunCode?style=flat-square" alt="许可证" /></a>
+  <a href="https://github.com/Roylyl/KunCode/commits/main"><img src="https://img.shields.io/github/last-commit/Roylyl/KunCode?style=flat-square" alt="最后提交" /></a>
 </p>
 
 <p align="center">
   <a href="#下载安装">下载安装</a> ·
   <a href="#主要功能">主要功能</a> ·
   <a href="#从源码运行">从源码运行</a> ·
+  <a href="#项目结构">项目结构</a> ·
   <a href="#参与贡献">参与贡献</a>
 </p>
 
