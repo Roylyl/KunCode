@@ -1,6 +1,6 @@
 # Agent host end-to-end tests
 
-End-to-end tests that exercise the **whole agent host** — the real server process, the real bundled provider SDK/CLI subprocess (Claude / Copilot / Codex), and the real JSON-RPC + AHP protocol over a WebSocket — **without a token and without network**.
+End-to-end tests that exercise the **whole agent host** — the real server process, the real bundled provider SDK/CLI subprocess (Claude/Copilot/Codex), and the real JSON-RPC + AHP protocol over a WebSocket — **without a token and without network**.
 
 They do this by recording the model traffic once (against real CAPI) into committed YAML fixtures, then **replaying** those fixtures deterministically on every run. Only the *model responses* are faked; everything else (the server, the SDK subprocess, tool execution, the protocol) is real.
 
@@ -346,7 +346,7 @@ A diff here means the CLI changed (an SDK bump) or the host changed what it hand
 
 After recording, **review the diff** (paths normalized? no usernames, tokens, or unreleased model ids?) and commit the updated snapshots and fixtures.
 
-> Recording creates real agent sessions. Keep prompts read-only / trivial (`echo`, `pwd`, list files) and scoped to isolated temp dirs.
+> Recording creates real agent sessions. Keep prompts read-only/trivial (`echo`, `pwd`, list files) and scoped to isolated temp dirs.
 
 ---
 
@@ -416,7 +416,7 @@ Getting the host into that configuration needs a feature that genuinely reaches 
 
 `IAgentHostE2EProviderConfig` (in `harness/agentHostE2ETestHarness.ts`) parameterizes the shared suite. Notable flags and the gates that use them:
 
-| Flag / condition | Effect |
+| Flag/condition | Effect |
 |---|---|
 | `enabled` | Skips the whole suite if the SDK isn't present. |
 | `supportsSubagents` | Gates the two subagent tests. |
@@ -480,7 +480,7 @@ Codex fixtures use its unified `exec_command` tool, so Codex record/replay serve
 
 ### A turn hangs or times out with no OS pattern
 
-When a test times out waiting for a notification and it is **not** platform-specific local execution (above), the failure is usually inside the bundled provider SDK/CLI. For the **Copilot** provider, a failed test tails the most recent Copilot runtime (`@github/copilot` CLI) `process-*.log` into the test output — look for the `[agent-host-e2e] # …` lines. That is the SDK/CLI's own account of startup, auth, the model request, and the turn lifecycle; a turn that started but never produced a model response, a panic, or an out-of-order / protocol error points at the SDK/CLI. Re-record after an SDK bump if the fixture is stale; otherwise treat it as a genuine regression. The Copilot runtime runs at `--log trace` in this harness, and the full logs live under the server's temp home (`${homeDir}/.copilot/logs`) until the suite tears down. (Claude and Codex use their own runtimes and are not captured here — check their provider CLI's own logs.)
+When a test times out waiting for a notification and it is **not** platform-specific local execution (above), the failure is usually inside the bundled provider SDK/CLI. For the **Copilot** provider, a failed test tails the most recent Copilot runtime (`@github/copilot` CLI) `process-*.log` into the test output — look for the `[agent-host-e2e] # …` lines. That is the SDK/CLI's own account of startup, auth, the model request, and the turn lifecycle; a turn that started but never produced a model response, a panic, or an out-of-order/protocol error points at the SDK/CLI. Re-record after an SDK bump if the fixture is stale; otherwise treat it as a genuine regression. The Copilot runtime runs at `--log trace` in this harness, and the full logs live under the server's temp home (`${homeDir}/.copilot/logs`) until the suite tears down. (Claude and Codex use their own runtimes and are not captured here — check their provider CLI's own logs.)
 
 ### Replayed text is doubled (`VALUEVALUE`)
 
@@ -492,7 +492,7 @@ The Responses (`/responses`) regenerator announces each output item before strea
 
 Same as above — it's platform-specific real execution, not the proxy. See the worktree and subagent gates for established patterns.
 
-### Fixture leaks a username / absolute path / token
+### Fixture leaks a username/absolute path/token
 
 Normalization missed something (e.g. a path that `ls` line-wrapped, or a new secret field). Add/extend a placeholder in `capiReplayProxy.ts` (`_normalize` + the `*_RE` redactors), then re-record. Never hand-edit secrets back in.
 
@@ -500,7 +500,7 @@ Normalization missed something (e.g. a path that `ls` line-wrapped, or a new sec
 
 Subagent flows are the most SDK-version-sensitive: the parent's and child's `/v1/messages` calls share one by-endpoint sequence, so once the recorded responses are from an older SDK they can drive the current SDK to diverge (an unrecorded call, or the subagent never reaching its tool call). **Re-record** the provider's subagent fixtures (`AGENT_HOST_REPLAY_RECORD=1 …`). The flow itself is deterministic, so a fresh recording replays reliably.
 
-### Everything suddenly reaches "real CAPI" / 401s locally
+### Everything suddenly reaches "real CAPI"/401s locally
 
 You're accidentally in record mode (`AGENT_HOST_REPLAY_RECORD` set) without a token, or an env override isn't pointing at the proxy. Unset the var to replay.
 
@@ -555,12 +555,12 @@ This system is a lighter-weight adaptation of the `copilot-agent-runtime` CLI e2
 
 | | This (agent-host) | Copilot CLI e2e |
 |---|---|---|
-| **System under test** | The agent host server, driven over the AHP WebSocket / JSON-RPC protocol | The Copilot CLI itself, driven through a real PTY / xterm terminal emulator (the full TUI) |
+| **System under test** | The agent host server, driven over the AHP WebSocket/JSON-RPC protocol | The Copilot CLI itself, driven through a real PTY/xterm terminal emulator (the full TUI) |
 | **Assertions** | On AHP protocol notifications | On rendered terminal output (`app.expect(…)`, tool-call UI, menus, tab-completion) |
-| **Providers** | Multi-provider (Claude / Copilot / Codex) via one shared parameterized suite | Copilot CLI only |
+| **Providers** | Multi-provider (Claude/Copilot/Codex) via one shared parameterized suite | Copilot CLI only |
 | **Response matching** | Sequence-based per `(method, path)` — no body matching | Normalized **request-body** matching (canonicalized to chat-completions), reports a `mismatchReason` on miss |
 | **Fixtures** | One minimal YAML per `(provider, test)` | A directory of named YAML snapshots per scenario |
-| **Runner / record** | Mocha (Electron) via `test-integration.sh`; record with `AGENT_HOST_REPLAY_RECORD=1` | vitest; `SKIP_CACHE` / `STRICT_CAPTURES`, plus asciinema session recording |
+| **Runner/record** | Mocha (Electron) via `test-integration.sh`; record with `AGENT_HOST_REPLAY_RECORD=1` | vitest; `SKIP_CACHE` / `STRICT_CAPTURES`, plus asciinema session recording |
 | **Scope** | A focused set of protocol behaviors | Broad: MCP, plugins, permissions, resume, auto-mode, TUI, … |
 
 Practical upshot: the CLI harness matches on request *content* (tolerant of call-order changes, but more setup), while this one matches on call *sequence* (simpler, but sensitive to non-deterministic ordering — see the subagent notes in [Troubleshooting](#troubleshooting)).
@@ -584,7 +584,7 @@ So: **content-keyed conversations vs. sequence-keyed exchanges.** That single ch
 
 ---
 
-## Design notes / FAQ
+## Design notes/FAQ
 
 - **Why sequence matching instead of body matching?** Request bodies carry volatile fields (dates, request ids) and the whole point of replay is that recorded responses drive the agent deterministically — so the Nth call to an endpoint is always the same call. Body matching would be brittle for no gain.
 - **Why normalize turns instead of storing raw SSE?** Readability. Fixtures are meant to be reviewed in PRs; a normalized `request`/`response` pair is far easier to reason about than a raw SSE blob, and the codec regenerates faithful SSE on replay.

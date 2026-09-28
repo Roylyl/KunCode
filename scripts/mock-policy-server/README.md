@@ -3,7 +3,7 @@
 A standalone dev tool that mocks the Copilot **policy** endpoints that
 `DefaultAccountService`
 (`src/vs/workbench/services/accounts/browser/defaultAccount.ts`) calls, so you
-can exercise the entitlement / token / MCP-registry / managed-settings (policy)
+can exercise the entitlement/token/MCP-registry/managed-settings (policy)
 pipeline locally without the real GitHub backend.
 
 It is **not** part of the shipped product — it is a local Node server + web GUI.

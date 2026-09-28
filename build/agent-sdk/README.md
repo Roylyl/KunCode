@@ -105,7 +105,7 @@ gulp graph. As its own pipeline step:
   foreign platform binary verbatim from the locked graph, then
   node-tar+gzip with reproducible flags. Has a thin CLI at bottom.
 - `upload.ts` — `uploadOne(...)`. HEAD-then-decide: absent → upload;
-  matching sha → skip (idempotent re-runs); different / no-metadata sha
+  matching sha → skip (idempotent re-runs); different/no-metadata sha
   → fail loud, refusing to overwrite content-addressed history. Thin CLI.
 - `produce.ts` — pipeline-step entry. For one `(vscode-platform, arch)`,
   iterates the SDKs in parallel, calls `buildOne` + `uploadOne` for each
