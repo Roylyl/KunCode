@@ -7,11 +7,20 @@
 <p align="center">603的开发工作台 · 写代码，也把卡住的事说清楚</p>
 
 <p align="center">
-  <a href="package.json"><img src="https://img.shields.io/badge/version-2.0.0-65a87d?style=flat-square" alt="版本2.0.0" /></a>
-  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT许可证" /></a>
-  <a href="#下载安装"><img src="https://img.shields.io/badge/installer-Windows_x64-0078d4?style=flat-square" alt="Windows x64安装包" /></a>
-  <a href="https://github.com/Roylyl/KunCode/releases"><img src="https://img.shields.io/badge/downloads-Releases-5865f2?style=flat-square" alt="发行下载" /></a>
-  <a href="https://github.com/Roylyl/KunCode/stargazers"><img src="https://img.shields.io/github/stars/Roylyl/KunCode?style=flat-square" alt="GitHub Stars" /></a>
+  <a href="https://github.com/Roylyl/KunCode/releases/tag/V2.0.0"><img src="https://img.shields.io/badge/release-V2.0.0-65a87d?style=flat-square" alt="正式发行V2.0.0" /></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-527565?style=flat-square" alt="MIT许可证" /></a>
+  <a href="#下载安装"><img src="https://img.shields.io/badge/Windows-x64-527565?style=flat-square" alt="Windows x64" /></a>
+  <a href="#下载安装"><img src="https://img.shields.io/badge/macOS-arm64%2Fx64-527565?style=flat-square" alt="macOS arm64与x64" /></a>
+  <a href="https://github.com/Roylyl/KunCode/releases"><img src="https://img.shields.io/github/downloads/Roylyl/KunCode/total?style=flat-square&amp;color=65a87d" alt="发行附件累计下载量" /></a>
+</p>
+
+<p align="center">
+  <a href="#困困ai怎么用"><img src="https://img.shields.io/badge/困困AI-1522条离线语料-65a87d?style=flat-square" alt="困困AI：1522条离线语料" /></a>
+  <a href="product.json"><img src="https://img.shields.io/badge/extension_API-1.133.0-527565?style=flat-square" alt="扩展API1.133.0" /></a>
+  <a href="#从源码运行"><img src="https://img.shields.io/badge/Node.js-24.18.0-527565?style=flat-square" alt="源码开发使用Node.js24.18.0" /></a>
+  <a href="https://github.com/Roylyl/KunCode/stargazers"><img src="https://img.shields.io/github/stars/Roylyl/KunCode?style=flat-square&amp;color=65a87d" alt="GitHub Stars" /></a>
+  <a href="https://github.com/Roylyl/KunCode/issues"><img src="https://img.shields.io/github/issues/Roylyl/KunCode?style=flat-square&amp;color=527565" alt="GitHub Issues" /></a>
+  <a href="https://github.com/Roylyl/KunCode/commits"><img src="https://img.shields.io/github/last-commit/Roylyl/KunCode?style=flat-square&amp;color=527565" alt="最近更新" /></a>
 </p>
 
 <p align="center">
@@ -19,25 +28,33 @@
   <a href="#主要功能">主要功能</a> ·
   <a href="#困困ai怎么用">困困AI</a> ·
   <a href="#从源码运行">源码运行</a> ·
-  <a href="#构建windows安装包">构建安装包</a>
+  <a href="#构建windows安装包">Windows打包</a> ·
+  <a href="#构建macos安装包">macOS打包</a>
 </p>
 
-KunCode是由603维护的跨平台开发工具，基于Code - OSS定制。代码编辑、项目管理、终端、调试和扩展集中在同一个工作台，内置像素水豚主题与困困AI，适合日常编程、课程项目和学习交流。
+KunCode是由603维护的跨平台开发工具，基于Code - OSS定制。代码编辑、项目管理、终端、调试和扩展集中在同一个工作台，内置像素水豚主题与离线场景助手困困AI，适合日常编程、课程项目和学习交流。
 
-2.0.0扩充了困困AI的本地场景语料，并改善场景匹配、连续追问和逐字输出。编辑器沿用KunCode的产品名称、应用标识与已有界面。
+[V2.0.0](https://github.com/Roylyl/KunCode/releases/tag/V2.0.0)已提供Windows和macOS安装包，困困AI扩充至1522条原创场景语料，并改善场景匹配、连续追问和逐字输出。困困AI通过本地语料回应，不需要联网，也不依赖大模型服务。
 
 ## 下载安装
 
-已发布的安装包在[Releases](https://github.com/Roylyl/KunCode/releases)获取。本次2.0.0的Windows构建产物名称为`KunCode-Windows-x64-2.0.0.exe`；本地构建与上传发行是两个独立步骤，下载时以发行页实际附件为准。
+选择与你的系统和处理器匹配的安装包，点击文件名即可下载。完整更新内容见[V2.0.0发行说明](https://github.com/Roylyl/KunCode/releases/tag/V2.0.0)，后续版本见[Releases](https://github.com/Roylyl/KunCode/releases)。
 
-| 使用方式 | 入口 | 使用要求 |
+| 平台 | V2.0.0下载 | 系统要求 |
 | --- | --- | --- |
-| Windows安装版 | 运行`KunCode-Windows-x64-2.0.0.exe` | Windows10及以上、x64系统，按向导完成安装 |
-| Windows源码运行 | `scripts/code.bat` | 准备Node.js、npm与C++构建工具 |
-| macOS源码运行 | `scripts/code.sh` | 准备Node.js、npm与Xcode Command Line Tools |
-| Linux源码运行 | `scripts/code.sh` | 准备Node.js、npm与对应的系统构建依赖 |
+| Windows | [KunCode-Windows-x64-2.0.0.exe](https://github.com/Roylyl/KunCode/releases/download/V2.0.0/KunCode-Windows-x64-2.0.0.exe) | Windows10及以上、x64 |
+| Mac · Apple Silicon | [KunCode-macOS-arm64-2.0.0.pkg](https://github.com/Roylyl/KunCode/releases/download/V2.0.0/KunCode-macOS-arm64-2.0.0.pkg) | macOS12及以上、M系列芯片 |
+| Mac · Intel | [KunCode-macOS-x64-2.0.0.pkg](https://github.com/Roylyl/KunCode/releases/download/V2.0.0/KunCode-macOS-x64-2.0.0.pkg) | macOS12及以上、Intel处理器 |
 
-安装后打开项目文件夹即可开始编辑。通过扩展视图安装所需语言工具，再按项目需要配置解释器、编译器或SDK。扩展市场使用[Open VSX](https://open-vsx.org/)。
+Mac用户可在苹果菜单的“关于本机”中查看芯片或处理器。arm64与x64是两个独立安装包，均不是Universal包。
+
+1. Windows运行EXE并按向导安装；macOS打开PKG并按向导安装到`/Applications`。
+2. 启动KunCode，打开项目文件夹，即可使用编辑器、终端、搜索和Git功能。
+3. 按项目需要，通过扩展视图安装语言工具，再配置解释器、编译器或SDK。扩展市场使用[Open VSX](https://open-vsx.org/)。
+
+两个Mac安装包未使用Developer ID发行签名，也未经Apple公证。首次安装或打开时若被系统拦截，在确认下载来源后，可通过系统设置的“隐私与安全性”按系统提示允许打开。
+
+使用安装版不需要准备Node.js或编译工具。需要修改和开发KunCode时，请参阅[从源码运行](#从源码运行)。KunCode没有配置后台更新服务，升级时从发行页下载对应平台的新版本安装包。
 
 KunCode的产品版本为2.0.0，扩展API兼容版本保留为1.133.0，与本工程[对应的上游提交](https://github.com/microsoft/vscode/blob/4bef75520b2f8d1d76a1e44962dbada7a7b34a7b/package.json)一致。产品版本升级不会把已有的^1.x扩展错误判为不兼容。
 
@@ -81,7 +98,7 @@ Git提交到了错误分支，怎么处理？
 
 ## 从源码运行
 
-准备Git与[.nvmrc](.nvmrc)指定的Node.js24.18.0，或同一24主版本下的更新版本。安装检查要求npm低于12，不使用Yarn。
+准备Git、Python3与[.nvmrc](.nvmrc)指定的Node.js24.18.0。安装检查要求npm低于12，不使用Yarn。
 
 依赖包含Electron和原生模块。Windows需要Visual Studio2022的C++构建工具、ATL、Spectre库及Windows SDK；macOS需要Xcode Command Line Tools。其他系统依赖参考[Code - OSS构建说明](https://github.com/microsoft/vscode/wiki/How-to-Contribute)。构建Rust CLI另需Rust工具链。
 
@@ -116,7 +133,36 @@ npm run gulp vscode-win32-x64-user-setup
 
 主程序、快捷方式与工作区文件使用水豚应用图标，安装器和安装向导使用带蓝色箭头的水豚图标，Windows卸载列表使用红叉水豚图标。Inno Setup生成的卸载EXE与安装EXE共享图标。品牌图标源文件位于`resources/kuncode/`；Mac应用与DMG使用同一份水豚ICNS，Linux打包也使用水豚图标。
 
-KunCode没有配置后台更新服务，当前安装包使用常规安装流程。其他平台的打包任务可通过`npm run gulp -- --tasks-simple`查看。
+其他平台的打包任务可通过`npm run gulp -- --tasks-simple`查看。
+
+## 构建macOS安装包
+
+使用Node.js24.18.0、npm低于12、Python3和Xcode Command Line Tools，在仓库根目录依次执行：
+
+```bash
+npm ci
+npm run download-builtin-extensions
+npm run gulp vscode-darwin-arm64-min
+./scripts/package-macos.sh
+```
+
+Intel版使用以下任务，打包时明确传入`x64`：
+
+```bash
+npm run gulp vscode-darwin-x64-min
+./scripts/package-macos.sh x64
+```
+
+打包脚本默认选择本机架构，也可传入`arm64`或`x64`。在Apple Silicon上构建Intel版时必须使用`x64`参数，避免把已有arm64应用再次打包。内置扩展下载可以复用；原生依赖还需与目标架构一致。
+
+在Apple Silicon上交叉构建Intel版时，首次准备x64依赖可使用`npm_config_arch=x64 npm ci`，再执行上述x64构建与打包命令。仅切换gulp任务不会自动把已有arm64原生模块改为x64。切回arm64开发前，应重新准备arm64依赖。
+
+| 架构 | 应用输出（仓库同级） | 桌面安装包 |
+| --- | --- | --- |
+| Apple Silicon（arm64） | `VSCode-darwin-arm64/KunCode.app` | `KunCode-macOS-arm64-2.0.0.pkg` |
+| Intel（x64） | `VSCode-darwin-x64/KunCode.app` | `KunCode-macOS-x64-2.0.0.pkg` |
+
+脚本使用macOS自带的`productbuild`，仅打包构建后的应用。单架构安装包不标记为Universal。默认生成未签名、未经公证的PKG；正式签名与公证需要自己的Developer ID证书和Apple公证凭据。首次打开遇到系统拦截时，在系统设置的“隐私与安全性”中按系统提示允许打开。
 
 ## 语料维护
 
