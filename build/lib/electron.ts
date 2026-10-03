@@ -142,14 +142,14 @@ const electronAssetResolver = electronFeed
 export const config = {
 	version: electronVersion,
 	productAppName: product.nameLong,
-	companyName: 'Microsoft Corporation',
+	companyName: '603',
 	copyright: 'Copyright (C) 2026 Microsoft. All rights reserved',
 	darwinExecutable: product.nameShort,
 	darwinIcon: 'resources/kuncode/app-icon.icns',
 	darwinBundleIdentifier: product.darwinBundleIdentifier,
 	darwinApplicationCategoryType: 'public.app-category.developer-tools',
-	darwinHelpBookFolder: 'VS Code HelpBook',
-	darwinHelpBookName: 'VS Code HelpBook',
+	darwinHelpBookFolder: `${product.nameLong} HelpBook`,
+	darwinHelpBookName: `${product.nameLong} HelpBook`,
 	darwinBundleDocumentTypes: [
 		...darwinBundleDocumentTypes({ 'C header file': 'h', 'C source code': 'c' }, 'c'),
 		...darwinBundleDocumentTypes({ 'Git configuration file': ['gitattributes', 'gitconfig', 'gitignore'] }, 'config'),
@@ -190,7 +190,6 @@ export const config = {
 		// Default icon with specified names
 		...darwinBundleDocumentTypes({
 			'Clojure source code': ['clj', 'cljs', 'cljx', 'clojure'],
-			'VS Code workspace file': 'code-workspace',
 			'CoffeeScript source code': 'coffee',
 			'Comma Separated Values': 'csv',
 			'CMake script': 'cmake',
@@ -220,6 +219,10 @@ export const config = {
 			'TOML document': 'toml',
 			'Swift source code': 'swift',
 		}, 'default'),
+		{
+			...darwinBundleDocumentType(['code-workspace'], 'default', product.nameLong + ' workspace file'),
+			iconFile: 'resources/kuncode/app-icon.icns'
+		},
 		// Default icon with default name
 		darwinBundleDocumentType([
 			'containerfile', 'ctp', 'dot', 'edn', 'handlebars', 'hbs', 'ml', 'mli',
@@ -236,7 +239,7 @@ export const config = {
 	darwinForceDarkModeSupport: true,
 	darwinCredits: darwinCreditsTemplate ? Buffer.from(darwinCreditsTemplate({ commit: commit, date: new Date().toISOString() })) : undefined,
 	linuxExecutableName: product.applicationName,
-	winIcon: 'resources/win32/code.ico',
+	winIcon: 'resources/kuncode/app-icon.ico',
 	token: process.env['GITHUB_TOKEN'],
 	repo: electronAssetResolver,
 	validateChecksum: true,

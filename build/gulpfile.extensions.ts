@@ -91,10 +91,13 @@ const compilations = [
 	'extensions/vscode-colorize-perf-tests/tsconfig.json',
 	'extensions/vscode-test-resolver/tsconfig.json',
 
-	'.vscode/extensions/vscode-selfhost-test-provider/tsconfig.json',
-	'.vscode/extensions/vscode-selfhost-import-aid/tsconfig.json',
-	'.vscode/extensions/vscode-extras/tsconfig.json',
-	'.vscode/extensions/vscode-pr-pinger/tsconfig.json',
+	// Include optional upstream self-host extensions only when their directories exist.
+	...[
+		'.vscode/extensions/vscode-selfhost-test-provider/tsconfig.json',
+		'.vscode/extensions/vscode-selfhost-import-aid/tsconfig.json',
+		'.vscode/extensions/vscode-extras/tsconfig.json',
+		'.vscode/extensions/vscode-pr-pinger/tsconfig.json',
+	].filter(tsconfigFile => fs.existsSync(path.join(root, path.dirname(tsconfigFile)))),
 ];
 
 const getBaseUrl = (out: string) => `https://main.vscode-cdn.net/sourcemaps/${commit}/${out}`;

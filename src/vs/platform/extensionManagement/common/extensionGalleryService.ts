@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../base/common/product.js';
 import { distinct } from '../../../base/common/arrays.js';
 import { CancellationToken } from '../../../base/common/cancellation.js';
 import * as semver from '../../../base/common/semver/semver.js';
@@ -625,7 +626,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 		this.extensionsControlUrl = productService.extensionsGallery?.controlUrl;
 		this.unpkgResourceApi = productService.extensionsGallery?.extensionUrlTemplate;
 		this.commonHeadersPromise = resolveMarketplaceHeaders(
-			productService.version,
+			getVscodeVersion(productService),
 			productService,
 			this.environmentService,
 			this.configurationService,
@@ -738,7 +739,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 				includePreRelease,
 				versions,
 				compatible: !!options.compatible,
-				productVersion: options.productVersion ?? { version: this.productService.version, date: this.productService.date },
+				productVersion: options.productVersion ?? { version: getVscodeVersion(this.productService), date: this.productService.date },
 				isQueryForReleaseVersionFromPreReleaseVersion
 			},
 			extensionGalleryManifest,
@@ -882,7 +883,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 				targetPlatform,
 				compatible: !!options.compatible,
 				productVersion: options.productVersion ?? {
-					version: this.productService.version,
+					version: getVscodeVersion(this.productService),
 					date: this.productService.date
 				},
 				version: extensionInfo.preRelease ? VersionKind.Prerelease : VersionKind.Release
@@ -902,7 +903,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 				targetPlatform,
 				compatible: !!options.compatible,
 				productVersion: options.productVersion ?? {
-					version: this.productService.version,
+					version: getVscodeVersion(this.productService),
 					date: this.productService.date
 				},
 				version: VersionKind.Release
@@ -925,7 +926,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 						targetPlatform,
 						compatible: false,
 						productVersion: options.productVersion ?? {
-							version: this.productService.version,
+							version: getVscodeVersion(this.productService),
 							date: this.productService.date
 						},
 						version: VersionKind.Prerelease
@@ -944,7 +945,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 		return prereleaseVersion ?? releaseVersion ?? null;
 	}
 
-	async getCompatibleExtension(extension: IGalleryExtension, includePreRelease: boolean, targetPlatform: TargetPlatform, productVersion: IProductVersion = { version: this.productService.version, date: this.productService.date }): Promise<IGalleryExtension | null> {
+	async getCompatibleExtension(extension: IGalleryExtension, includePreRelease: boolean, targetPlatform: TargetPlatform, productVersion: IProductVersion = { version: getVscodeVersion(this.productService), date: this.productService.date }): Promise<IGalleryExtension | null> {
 		if (isNotWebExtensionInWebTargetPlatform(extension.allTargetPlatforms, targetPlatform)) {
 			return null;
 		}
@@ -968,7 +969,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 		return result[0] ?? null;
 	}
 
-	async isExtensionCompatible(extension: IGalleryExtension, includePreRelease: boolean, targetPlatform: TargetPlatform, productVersion: IProductVersion = { version: this.productService.version, date: this.productService.date }): Promise<boolean> {
+	async isExtensionCompatible(extension: IGalleryExtension, includePreRelease: boolean, targetPlatform: TargetPlatform, productVersion: IProductVersion = { version: getVscodeVersion(this.productService), date: this.productService.date }): Promise<boolean> {
 		return this.isValidVersion(
 			{
 				id: extension.identifier.id,
@@ -1150,7 +1151,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 		}
 
 		const runQuery = async (query: Query, token: CancellationToken) => {
-			const { extensions, total } = await this.queryGalleryExtensions(query, { targetPlatform: CURRENT_TARGET_PLATFORM, compatible: false, includePreRelease: !!options.includePreRelease, productVersion: options.productVersion ?? { version: this.productService.version, date: this.productService.date } }, extensionGalleryManifest, token);
+			const { extensions, total } = await this.queryGalleryExtensions(query, { targetPlatform: CURRENT_TARGET_PLATFORM, compatible: false, includePreRelease: !!options.includePreRelease, productVersion: options.productVersion ?? { version: getVscodeVersion(this.productService), date: this.productService.date } }, extensionGalleryManifest, token);
 
 			const result: IGalleryExtension[] = [];
 			let defaultChatAgentExtension: IGalleryExtension | undefined;
@@ -1821,7 +1822,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 		}
 
 		const versions: IRawGalleryExtensionVersion[] = [];
-		const productVersion = { version: this.productService.version, date: this.productService.date };
+		const productVersion = { version: getVscodeVersion(this.productService), date: this.productService.date };
 		await Promise.all(galleryExtensions[0].versions.map(async (version) => {
 			try {
 				if (
@@ -1962,7 +1963,7 @@ export abstract class AbstractExtensionGalleryService implements IExtensionGalle
 			}
 			if (result.migrateToPreRelease) {
 				for (const [unsupportedPreReleaseExtensionId, preReleaseExtensionInfo] of Object.entries(result.migrateToPreRelease)) {
-					if (!preReleaseExtensionInfo.engine || isEngineValid(preReleaseExtensionInfo.engine, this.productService.version, this.productService.date)) {
+					if (!preReleaseExtensionInfo.engine || isEngineValid(preReleaseExtensionInfo.engine, getVscodeVersion(this.productService), this.productService.date)) {
 						deprecated[unsupportedPreReleaseExtensionId.toLowerCase()] = {
 							disallowInstall: true,
 							extension: {

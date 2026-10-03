@@ -96,8 +96,15 @@ export interface IDictationRuntimeProductConfig {
 	readonly urlTemplate: string;
 }
 
+/** Resolve the extension API version independently of a fork's product version. */
+export function getVscodeVersion(product: Pick<IProductConfiguration, 'version' | 'vscodeVersion'>): string {
+	return product.vscodeVersion ?? product.version;
+}
+
 export interface IProductConfiguration {
 	readonly version: string;
+	/** Code - OSS API version; defaults to the product version for upstream products. */
+	readonly vscodeVersion?: string;
 	readonly date?: string;
 	readonly quality?: string;
 	readonly commit?: string;

@@ -47,7 +47,7 @@ function packageInnoSetup(iss: string, options: { definitions?: Record<string, u
 		`/sesrp=node ${signWin32Path} $f`
 	];
 
-	cp.spawn(innoSetupPath, args, { stdio: ['ignore', 'inherit', 'inherit'] })
+	cp.spawn(innoSetupPath, args, { stdio: ['ignore', 'inherit', 'inherit'], windowsHide: true })
 		.on('error', cb)
 		.on('exit', code => {
 			if (code === 0) {
@@ -73,6 +73,10 @@ function buildWin32Setup(arch: string, target: string): task.CallbackTask {
 
 		const quality = (product as typeof product & { quality?: string }).quality || 'dev';
 		const useVersionedUpdate = (product as typeof product & { win32VersionedUpdate?: boolean })?.win32VersionedUpdate;
+		const supportsBackgroundUpdate = Boolean((product as typeof product & { updateUrl?: string }).updateUrl);
+		if ((supportsBackgroundUpdate || useVersionedUpdate) && !fs.existsSync(path.join(sourcePath, 'tools', 'inno_updater.exe'))) {
+			throw new Error('Configured Windows updates require tools/inno_updater.exe in the packaged application.');
+		}
 		const versionedResourcesFolder = useVersionedUpdate ? commit!.substring(0, 10) : '';
 		const issPath = path.join(import.meta.dirname, 'win32', 'code.iss');
 		const productJsonRelativePath = path.join(versionedResourcesFolder, 'resources/app/product.json');
@@ -110,7 +114,8 @@ function buildWin32Setup(arch: string, target: string): task.CallbackTask {
 			ProductJsonRelativePath: productJsonRelativePath,
 			ProductJsonPath: productJsonPath,
 			VersionedResourcesFolder: versionedResourcesFolder,
-			Quality: quality
+			Quality: quality,
+			SupportsBackgroundUpdate: supportsBackgroundUpdate ? 'true' : 'false'
 		};
 
 		if (quality === 'stable' || quality === 'insider') {
@@ -148,7 +153,7 @@ function copyInnoUpdater(arch: string) {
 
 function updateIcon(executablePath: string): task.CallbackTask {
 	return cb => {
-		const icon = path.join(repoPath, 'resources', 'win32', 'code.ico');
+		const icon = path.join(repoPath, 'resources', 'kuncode', 'installer-icon.ico');
 		rcedit(executablePath, { icon }, cb);
 	};
 }

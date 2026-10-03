@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../../base/common/product.js';
 import { CancellationToken } from '../../../../base/common/cancellation.js';
 import { Emitter } from '../../../../base/common/event.js';
 import { IHeaders } from '../../../../base/parts/request/common/request.js';
@@ -56,7 +57,7 @@ export class WorkbenchExtensionGalleryManifestService extends ExtensionGalleryMa
 	) {
 		super(productService);
 		this.commonHeadersPromise = resolveMarketplaceHeaders(
-			productService.version,
+			getVscodeVersion(productService),
 			productService,
 			environmentService,
 			configurationService,

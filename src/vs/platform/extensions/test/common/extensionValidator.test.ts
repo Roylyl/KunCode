@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 import assert from 'assert';
+import { getVscodeVersion } from '../../../../base/common/product.js';
 import { ensureNoDisposablesAreLeakedInTestSuite } from '../../../../base/test/common/utils.js';
 import { IExtensionManifest } from '../../common/extensions.js';
 import { INormalizedVersion, IParsedVersion, isValidExtensionVersion, isValidVersion, isValidVersionStr, normalizeVersion, parseVersion } from '../../common/extensionValidator.js';
@@ -12,6 +13,39 @@ suite('Extension Version Validator', () => {
 	ensureNoDisposablesAreLeakedInTestSuite();
 
 	const productVersion = '2021-05-11T21:54:30.577Z';
+
+	test('fork product version does not change extension API compatibility', () => {
+		const product = { version: '2.0.0', vscodeVersion: '1.133.0' };
+		const apiVersion = getVscodeVersion(product);
+		assert.deepStrictEqual({
+			productVersion: product.version,
+			apiVersion,
+			legacyExtension: isValidVersion(apiVersion, undefined, '^1.60.0'),
+			currentExtension: isValidVersion(apiVersion, undefined, '^1.133.0'),
+			futureExtension: isValidVersion(apiVersion, undefined, '^1.134.0'),
+			breakingExtension: isValidVersion(apiVersion, undefined, '^2.0.0'),
+		}, {
+			productVersion: '2.0.0',
+			apiVersion: '1.133.0',
+			legacyExtension: true,
+			currentExtension: true,
+			futureExtension: false,
+			breakingExtension: false,
+		});
+	});
+
+	test('extension API version falls back to the upstream product version', () => {
+		const apiVersion = getVscodeVersion({ version: '1.104.0-dev' });
+		assert.deepStrictEqual({
+			apiVersion,
+			compatible: isValidVersion(apiVersion, undefined, '^1.100.0'),
+			tooNew: isValidVersion(apiVersion, undefined, '^1.105.0'),
+		}, {
+			apiVersion: '1.104.0-dev',
+			compatible: true,
+			tooNew: false,
+		});
+	});
 
 	test('isValidVersionStr', () => {
 		assert.strictEqual(isValidVersionStr('0.10.0-dev'), true);

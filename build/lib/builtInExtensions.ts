@@ -21,6 +21,8 @@ export interface IExtensionDefinition {
 	version: string;
 	sha256: string;
 	repo: string;
+	/** Download the pinned release asset independently of the configured user extension gallery. */
+	source?: 'github';
 	platforms?: string[];
 	vsix?: string;
 	/**
@@ -93,6 +95,8 @@ function getExtensionDownloadStream(extension: IExtensionDefinition) {
 			return es.readArray([]);
 		}
 		input = ext.fromGithub(extension, { asset, latest: isInsiders() });
+	} else if (extension.source === 'github') {
+		input = ext.fromGithub(extension, { latest: false });
 	} else if (productjson.extensionsGallery?.serviceUrl) {
 		input = ext.fromMarketplace(productjson.extensionsGallery.serviceUrl, extension);
 	} else {
@@ -134,7 +138,7 @@ export function getExtensionStream(extension: IExtensionDefinition) {
 
 function syncMarketplaceExtension(extension: IExtensionDefinition): Stream {
 	const galleryServiceUrl = productjson.extensionsGallery?.serviceUrl;
-	const source = ansiColors.blue(galleryServiceUrl ? '[marketplace]' : '[github]');
+	const source = ansiColors.blue(galleryServiceUrl && extension.source !== 'github' && !extension.platformSpecific ? '[marketplace]' : '[github]');
 	if (isUpToDate(extension)) {
 		log(source, `${extension.name}@${extension.version}`, ansiColors.green('✔︎'));
 		return es.readArray([]);

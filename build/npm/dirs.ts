@@ -59,11 +59,15 @@ export const dirs = [
 	'test/monaco',
 	'test/smoke',
 	'test/mcp',
+];
+
+// Upstream self-host extensions are optional in KunCode checkouts.
+dirs.push(...[
 	'.vscode/extensions/vscode-selfhost-import-aid',
 	'.vscode/extensions/vscode-selfhost-test-provider',
 	'.vscode/extensions/vscode-extras',
 	'.vscode/extensions/vscode-pr-pinger',
-];
+].filter(dir => existsSync(`${import.meta.dirname}/../../${dir}`)));
 
 if (existsSync(`${import.meta.dirname}/../../.build/distro/npm`)) {
 	dirs.push('.build/distro/npm');

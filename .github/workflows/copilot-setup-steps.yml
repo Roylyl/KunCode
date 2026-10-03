@@ -11,10 +11,16 @@ on:
     paths:
       - .github/workflows/copilot-setup-steps.yml
 
+concurrency:
+  group: copilot-setup-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  # Use GitHub-hosted runners available to KunCode, with bounded setup time.
   # The job MUST be called `copilot-setup-steps` or it will not be picked up by Copilot.
   copilot-setup-steps:
-    runs-on: vscode-large-runners
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
 
     # Set the permissions to the lowest permissions possible needed for your steps.
     # Copilot will be given its own token for its operations.
@@ -25,7 +31,7 @@ jobs:
     # You can define any steps you want, and they will run before the agent starts.
     # If you do not check out your code, Copilot will do this for you.
     steps:
-      - name: Checkout microsoft/vscode
+      - name: Checkout KunCode
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
       - name: Setup Node.js

@@ -12,8 +12,47 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  detect:
+    name: Check chat-lib availability
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      available: ${{ steps.module.outputs.available }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+
+      - name: Check optional Copilot sources
+        id: module
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const fs = require('node:fs');
+            const directory = 'extensions/copilot';
+            if (!fs.existsSync(directory)) {
+              core.setOutput('available', 'false');
+              const reason = 'chat-lib tests are not applicable: this repository does not include extensions/copilot. KunCode extension tests run in KunCode Repository Checks.';
+              core.notice(reason);
+              await core.summary.addRaw(reason).write();
+              return;
+            }
+            for (const name of ['package.json', 'package-lock.json', '.nvmrc']) {
+              if (!fs.existsSync(`${directory}/${name}`)) {
+                core.setFailed(`Copilot sources are incomplete: missing ${directory}/${name}.`);
+                return;
+              }
+            }
+            const manifest = JSON.parse(fs.readFileSync(`${directory}/package.json`, 'utf8'));
+            if (!manifest.scripts?.['extract-chat-lib']) {
+              core.setFailed('Copilot package.json must define extract-chat-lib before running chat-lib tests.');
+              return;
+            }
+            core.setOutput('available', 'true');
+
   test:
     name: chat-lib tests (${{ matrix.os }})
+    needs: detect
+    if: needs.detect.outputs.available == 'true'
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:

@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../base/common/product.js';
 import * as fs from 'fs';
 import { Promises, Queue } from '../../../base/common/async.js';
 import { VSBuffer } from '../../../base/common/buffer.js';
@@ -130,7 +131,7 @@ export class ExtensionManagementService extends AbstractExtensionManagementServi
 		}
 	}
 
-	getInstalled(type?: ExtensionType, profileLocation: URI = this.userDataProfilesService.defaultProfile.extensionsResource, productVersion: IProductVersion = { version: this.productService.version, date: this.productService.date }, language?: string): Promise<ILocalExtension[]> {
+	getInstalled(type?: ExtensionType, profileLocation: URI = this.userDataProfilesService.defaultProfile.extensionsResource, productVersion: IProductVersion = { version: getVscodeVersion(this.productService), date: this.productService.date }, language?: string): Promise<ILocalExtension[]> {
 		return this.extensionsScanner.scanExtensions(type ?? null, profileLocation, productVersion, language);
 	}
 
@@ -150,7 +151,7 @@ export class ExtensionManagementService extends AbstractExtensionManagementServi
 		try {
 			const manifest = await getManifest(path.resolve(location.fsPath));
 			const extensionId = getGalleryExtensionId(manifest.publisher, manifest.name);
-			if (manifest.engines && manifest.engines.vscode && !isEngineValid(manifest.engines.vscode, this.productService.version, this.productService.date)) {
+			if (manifest.engines && manifest.engines.vscode && !isEngineValid(manifest.engines.vscode, getVscodeVersion(this.productService), this.productService.date)) {
 				throw new Error(nls.localize('incompatible', "Unable to install extension '{0}' as it is not compatible with VS Code '{1}'.", extensionId, this.productService.version));
 			}
 
@@ -234,7 +235,7 @@ export class ExtensionManagementService extends AbstractExtensionManagementServi
 	}
 
 	copyExtensions(fromProfileLocation: URI, toProfileLocation: URI): Promise<void> {
-		return this.extensionsScanner.copyExtensions(fromProfileLocation, toProfileLocation, { version: this.productService.version, date: this.productService.date });
+		return this.extensionsScanner.copyExtensions(fromProfileLocation, toProfileLocation, { version: getVscodeVersion(this.productService), date: this.productService.date });
 	}
 
 	deleteExtensions(...extensions: IExtension[]): Promise<void> {

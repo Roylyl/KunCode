@@ -80,7 +80,7 @@ export function escapeNonWindowsPath(path: string, shellType?: TerminalShellType
 }
 
 /**
- * Collapses the user's home directory into `~` if it exists within the path, this gives a shorter
+ * Collapses the user's home directory into `~` if it is a prefix of the path, this gives a shorter
  * path that is more suitable within the context of a terminal.
  */
 export function collapseTildePath(path: string | undefined, userHome: string | undefined, separator: string): string {
@@ -90,16 +90,20 @@ export function collapseTildePath(path: string | undefined, userHome: string | u
 	if (!userHome) {
 		return path;
 	}
-	// Trim the trailing separator from the end if it exists
-	if (userHome.match(/[\/\\]$/)) {
-		userHome = userHome.slice(0, userHome.length - 1);
+	let normalizedPath = path.replace(/\\/g, '/');
+	let normalizedUserHome = userHome.replace(/\\/g, '/').replace(/\/+$/, '');
+	const homeLength = normalizedUserHome.length;
+	if (separator === '\\') {
+		normalizedPath = normalizedPath.toLowerCase();
+		normalizedUserHome = normalizedUserHome.toLowerCase();
 	}
-	const normalizedPath = path.replace(/\\/g, '/').toLowerCase();
-	const normalizedUserHome = userHome.replace(/\\/g, '/').toLowerCase();
-	if (!normalizedPath.includes(normalizedUserHome)) {
+	if (normalizedPath === normalizedUserHome) {
+		return '~';
+	}
+	if (!normalizedPath.startsWith(`${normalizedUserHome}/`)) {
 		return path;
 	}
-	return `~${separator}${path.slice(userHome.length + 1)}`;
+	return `~${separator}${path.slice(homeLength + 1)}`;
 }
 
 /**

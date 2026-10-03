@@ -380,14 +380,18 @@ const sensitiveEnvVarNames = /^(?:.*_)?(?:API_?KEY|TOKEN|SECRET|PASSWORD|PASSWD|
  */
 const secretValuePatterns = [
 	// JWT tokens
-	/^eyJ[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+$/,
+	/eyJ[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+\.[a-zA-Z0-9\-_]+/,
 	// GitHub tokens
-	/^gh[psuro]_[a-zA-Z0-9]{36}$/,
-	/^github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}$/,
+	/gh[psuro]_[a-zA-Z0-9]{36}/,
+	/github_pat_[a-zA-Z0-9]{22}_[a-zA-Z0-9]{59}/,
 	// Google API keys
-	/^AIza[A-Za-z0-9_\-]{35}$/,
+	/AIza[A-Za-z0-9_\-]{35}/,
 	// Slack tokens
-	/^xox[pbar]\-[A-Za-z0-9\-]+$/,
+	/xox[pbar]\-[A-Za-z0-9\-]+/,
+	// URLs containing a username and password, including database connection strings
+	/[a-z][a-z0-9+.-]*:\/\/[^/\s?#]*:[^/\s?#]*@/i,
+	// PEM private keys
+	/-----BEGIN (?:[A-Z0-9]+ )?PRIVATE KEY-----/,
 	// Azure/MS tokens (common patterns)
 	/^[a-zA-Z0-9]{32,}$/,
 ];

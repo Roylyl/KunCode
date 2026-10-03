@@ -6,6 +6,7 @@
 	"sharedDataFolderName": ".kuncode-shared",
 	"win32MutexName": "kuncode",
 	"commit": "4bef75520b2f8d1d76a1e44962dbada7a7b34a7b",
+	"vscodeVersion": "1.133.0",
 	"date": "2026-08-10T12:00:00.000Z",
 	"extensionsGallery": {
 		"serviceUrl": "https://open-vsx.org/vscode/gallery",
@@ -36,7 +37,7 @@
 	"darwinBundleIdentifier": "com.kuncode.app",
 	"darwinProfileUUID": "47827DD9-4734-49A0-AF80-7E19B11495CC",
 	"darwinProfilePayloadUUID": "CF808BE7-53F3-46C6-A7E2-7EDB98A5E959",
-	"linuxIconName": "code-oss",
+	"linuxIconName": "kuncode",
 	"licenseFileName": "LICENSE.txt",
 	"reportIssueUrl": "https://github.com/Roylyl/KunCode/issues/new",
 	"nodejsArtifactFeed": "",
@@ -80,8 +81,9 @@
 		{
 			"name": "ms-vscode.vscode-js-profile-table",
 			"version": "1.0.11",
-			"sha256": "50d002706213bc90d695f05f56d42fffd825035945eaf1cb1ba175effb7ff408",
+			"sha256": "a962a1e6a3baf74c9354b7f47fa96e6d6f0423a63bff55d7f976b6134a748ae9",
 			"repo": "https://github.com/microsoft/vscode-js-profile-visualizer",
+			"source": "github",
 			"metadata": {
 				"id": "7e52b41b-71ad-457b-ab7e-0620f1fc4feb",
 				"publisherId": {

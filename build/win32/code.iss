@@ -8,22 +8,22 @@
 AppId={#AppId}
 AppName={#NameLong}
 AppVerName={#NameVersion}
-AppPublisher=Microsoft Corporation
-AppPublisherURL=https://code.visualstudio.com/
-AppSupportURL=https://code.visualstudio.com/
-AppUpdatesURL=https://code.visualstudio.com/
+AppPublisher=603
+AppPublisherURL=https://github.com/Roylyl/KunCode
+AppSupportURL=https://github.com/Roylyl/KunCode/issues
+AppUpdatesURL=https://github.com/Roylyl/KunCode/releases
 DefaultGroupName={#NameLong}
 AllowNoIcons=yes
 OutputDir={#OutputDir}
-OutputBaseFilename=VSCodeSetup
+OutputBaseFilename=KunCode-Windows-{#Arch}-{#Version}
 Compression=lzma
 SolidCompression=yes
 AppMutex={code:GetAppMutex}
 SetupMutex={code:GetSetupMutex}
 WizardImageFile="{#RepoDir}\resources\win32\inno-big-100.bmp,{#RepoDir}\resources\win32\inno-big-125.bmp,{#RepoDir}\resources\win32\inno-big-150.bmp,{#RepoDir}\resources\win32\inno-big-175.bmp,{#RepoDir}\resources\win32\inno-big-200.bmp,{#RepoDir}\resources\win32\inno-big-225.bmp,{#RepoDir}\resources\win32\inno-big-250.bmp"
 WizardSmallImageFile="{#RepoDir}\resources\win32\inno-small-100.bmp,{#RepoDir}\resources\win32\inno-small-125.bmp,{#RepoDir}\resources\win32\inno-small-150.bmp,{#RepoDir}\resources\win32\inno-small-175.bmp,{#RepoDir}\resources\win32\inno-small-200.bmp,{#RepoDir}\resources\win32\inno-small-225.bmp,{#RepoDir}\resources\win32\inno-small-250.bmp"
-SetupIconFile={#RepoDir}\resources\win32\code.ico
-UninstallDisplayIcon={app}\{#ExeBasename}.exe
+SetupIconFile={#RepoDir}\resources\kuncode\installer-icon.ico
+UninstallDisplayIcon={app}\{#VersionedResourcesFolder}\resources\app\resources\kuncode\uninstaller-icon.ico
 ChangesEnvironment=true
 ChangesAssociations=true
 MinVersion=10.0
@@ -98,7 +98,7 @@ Name: "{app}"; AfterInstall: DisableAppDirInheritance
 Source: "*"; Excludes: "\CodeSignSummary*.md,\tools,\tools\*,\policies,\policies\*,\appx,\appx\*,\{#ProductJsonRelativePath},\{#ExeBasename}.exe,\{#ExeBasename}.VisualElementsManifest.xml,\bin,\bin\*"; DestDir: "{code:GetDestDir}"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "{#ExeBasename}.exe"; DestDir: "{code:GetDestDir}"; DestName: "{code:GetExeBasename}"; Flags: ignoreversion
 Source: "{#ExeBasename}.VisualElementsManifest.xml"; DestDir: "{code:GetDestDir}"; DestName: "{code:GetVisualElementsManifest}"; Flags: ignoreversion
-Source: "tools\*"; DestDir: "{app}\{#VersionedResourcesFolder}\tools"; Flags: ignoreversion
+Source: "tools\*"; DestDir: "{app}\{#VersionedResourcesFolder}\tools"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "policies\*"; DestDir: "{code:GetDestDir}\{#VersionedResourcesFolder}\policies"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "bin\{#TunnelApplicationName}.exe"; DestDir: "{code:GetDestDir}\bin"; DestName: "{code:GetBinDirTunnelApplicationFilename}"; Flags: ignoreversion skipifsourcedoesntexist
 Source: "bin\{#ApplicationName}.cmd"; DestDir: "{code:GetDestDir}\bin"; DestName: "{code:GetBinDirApplicationCmdFilename}"; Flags: ignoreversion
@@ -288,7 +288,7 @@ Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\.code-workspace\OpenW
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\.code-workspace\OpenWithProgids"; ValueType: string; ValueName: "{#RegValueName}.code-workspace"; ValueData: ""; Flags: uninsdeletevalue; Tasks: associatewithfiles
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}.code-workspace"; ValueType: string; ValueName: ""; ValueData: "{cm:SourceFile,Code Workspace}"; Flags: uninsdeletekey; Tasks: associatewithfiles
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}.code-workspace"; ValueType: string; ValueName: "AppUserModelID"; ValueData: "{#AppUserId}"; Flags: uninsdeletekey; Tasks: associatewithfiles
-Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}.code-workspace\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#VersionedResourcesFolder}\resources\app\resources\win32\code.ico"; Tasks: associatewithfiles
+Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}.code-workspace\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#ExeBasename}.exe,0"; Tasks: associatewithfiles
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}.code-workspace\shell\open"; ValueType: string; ValueName: "Icon"; ValueData: """{app}\{#ExeBasename}.exe"""; Tasks: associatewithfiles
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}.code-workspace\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#ExeBasename}.exe"" ""%1"""; Tasks: associatewithfiles
 
@@ -1263,12 +1263,12 @@ Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}.zsh\s
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}.zsh\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#ExeBasename}.exe"" ""%1"""; Tasks: associatewithfiles
 
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}SourceFile"; ValueType: string; ValueName: ""; ValueData: "{cm:SourceFile,{#NameLong}}"; Flags: uninsdeletekey
-Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}SourceFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#VersionedResourcesFolder}\resources\app\resources\win32\default.ico"
+Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}SourceFile\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#ExeBasename}.exe,0"
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}SourceFile\shell\open"; ValueType: string; ValueName: ""; ValueData: """{app}\{#ExeBasename}.exe"""
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\{#RegValueName}SourceFile\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#ExeBasename}.exe"" ""%1"""
 
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\Applications\{#ExeBasename}.exe"; ValueType: none; ValueName: ""; Flags: uninsdeletekey
-Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\Applications\{#ExeBasename}.exe\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#VersionedResourcesFolder}\resources\app\resources\win32\default.ico"
+Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\Applications\{#ExeBasename}.exe\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#ExeBasename}.exe,0"
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\Applications\{#ExeBasename}.exe\shell\open"; ValueType: string; ValueName: "Icon"; ValueData: """{app}\{#ExeBasename}.exe"""
 Root: {#SoftwareClassesRootKey}; Subkey: "Software\Classes\Applications\{#ExeBasename}.exe\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#ExeBasename}.exe"" ""%1"""
 
@@ -1309,7 +1309,12 @@ Root: {#EnvironmentRootKey}; Subkey: "Software\Microsoft\Windows\CurrentVersion\
 [Code]
 function IsBackgroundUpdate(): Boolean;
 begin
+#if SupportsBackgroundUpdate == "true"
   Result := ExpandConstant('{param:update|false}') <> 'false';
+#else
+  // Standalone KunCode installs use normal Inno installation and upgrade flows.
+  Result := False;
+#endif
 end;
 
 function IsNotBackgroundUpdate(): Boolean;

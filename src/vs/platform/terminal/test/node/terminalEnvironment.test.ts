@@ -351,7 +351,7 @@ suite('platform - terminalEnvironment', async () => {
 
 		test('should redact Google API keys by value pattern', () => {
 			deepStrictEqual(sanitizeEnvForLogging({
-				GOOGLE_KEY: 'AIzaSyDaGmWKa4JsXZ-HjGw7ISLn_3namBGewQe'
+				GOOGLE_KEY: 'AIza' + 'x'.repeat(33) + '_-'
 			}), {
 				GOOGLE_KEY: '<REDACTED>'
 			});
@@ -362,6 +362,35 @@ suite('platform - terminalEnvironment', async () => {
 				LONG_VALUE: 'abcdefghijklmnopqrstuvwxyz123456'
 			}), {
 				LONG_VALUE: '<REDACTED>'
+			});
+		});
+
+		test('should redact secrets embedded in environment values', () => {
+			deepStrictEqual(sanitizeEnvForLogging({
+				REQUEST_HEADER: 'Bearer eyJtest.payload.signature',
+				SERVICE_URL: 'https://example.test/?key=AIza' + 'x'.repeat(35),
+				GH_CONFIG: 'token=ghp_' + 'x'.repeat(36),
+				DATABASE_URL: 'postgres://test-user:test-password@localhost/database',
+				SIGNING_MATERIAL: '-----BEGIN PRIVATE KEY-----\nsynthetic-test-data\n-----END PRIVATE KEY-----'
+			}), {
+				REQUEST_HEADER: '<REDACTED>',
+				SERVICE_URL: '<REDACTED>',
+				GH_CONFIG: '<REDACTED>',
+				DATABASE_URL: '<REDACTED>',
+				SIGNING_MATERIAL: '<REDACTED>'
+			});
+		});
+
+		test('should preserve URLs without credentials and leave the input unchanged', () => {
+			const env = Object.freeze({
+				SERVICE_URL: 'https://example.test:443/path?q=value',
+				DATABASE_URL: 'postgres://localhost:5432/database',
+				API_KEY: 'synthetic-test-value'
+			});
+			deepStrictEqual(sanitizeEnvForLogging(env), {
+				SERVICE_URL: 'https://example.test:443/path?q=value',
+				DATABASE_URL: 'postgres://localhost:5432/database',
+				API_KEY: '<REDACTED>'
 			});
 		});
 

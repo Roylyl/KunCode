@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../../base/common/product.js';
 import { IBuiltinExtensionsScannerService, ExtensionType, IExtensionIdentifier, IExtension, IExtensionManifest, TargetPlatform, IRelaxedExtensionManifest, parseEnabledApiProposalNames } from '../../../../platform/extensions/common/extensions.js';
 import { IBrowserWorkbenchEnvironmentService } from '../../environment/browser/environmentService.js';
 import { IScannedExtension, IWebExtensionsScannerService, ScanOptions } from '../common/extensionManagement.js';
@@ -767,7 +768,7 @@ export class WebExtensionsScannerService extends Disposable implements IWebExten
 
 		const uuid = (<IGalleryMetadata | undefined>webExtension.metadata)?.id;
 
-		validations.push(...validateExtensionManifest(this.productService.version, this.productService.date, webExtension.location, manifest, false));
+		validations.push(...validateExtensionManifest(getVscodeVersion(this.productService), this.productService.date, webExtension.location, manifest, false));
 		let isValid = true;
 		for (const [severity, message] of validations) {
 			if (severity === Severity.Error) {

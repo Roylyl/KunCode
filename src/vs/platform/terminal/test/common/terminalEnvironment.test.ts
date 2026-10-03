@@ -41,6 +41,22 @@ suite('terminalEnvironment', () => {
 			strictEqual(collapseTildePath('/foo/bar/baz', '/foo', '/'), '~/bar/baz');
 			strictEqual(collapseTildePath('/foo/bar/baz', '/foo/', '/'), '~/bar/baz');
 		});
+		test('should collapse the home directory itself', () => {
+			strictEqual(collapseTildePath('/foo', '/foo/', '/'), '~');
+			strictEqual(collapseTildePath('C:\\foo', 'c:\\foo\\', '\\'), '~');
+		});
+		test('should only collapse at a directory boundary', () => {
+			strictEqual(collapseTildePath('/foobar/file', '/foo', '/'), '/foobar/file');
+			strictEqual(collapseTildePath('/other/foo/file', '/foo', '/'), '/other/foo/file');
+			strictEqual(collapseTildePath('C:\\foobar\\file', 'C:\\foo', '\\'), 'C:\\foobar\\file');
+		});
+		test('should preserve case sensitivity with Posix separators', () => {
+			strictEqual(collapseTildePath('/FOO/bar', '/foo', '/'), '/FOO/bar');
+		});
+		test('should collapse from a filesystem root', () => {
+			strictEqual(collapseTildePath('/foo/bar', '/', '/'), '~/foo/bar');
+			strictEqual(collapseTildePath('C:\\foo\\bar', 'C:\\', '\\'), '~\\foo\\bar');
+		});
 	});
 	suite('sanitizeCwd', () => {
 		if (OS === OperatingSystem.Windows) {

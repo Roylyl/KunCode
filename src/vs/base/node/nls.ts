@@ -53,7 +53,13 @@ export async function resolveNLSConfiguration({ userLocale, osLocale, userDataPa
 	}
 
 	try {
-		const languagePacks = await getLanguagePackConfigurations(userDataPath) ?? await getBundledKunCodeLanguagePack(nlsMetadataPath);
+		let languagePacks = await getLanguagePackConfigurations(userDataPath);
+		if (!languagePacks || !resolveLanguagePackLanguage(languagePacks, userLocale)) {
+			const bundledLanguagePacks = await getBundledKunCodeLanguagePack(nlsMetadataPath);
+			if (bundledLanguagePacks) {
+				languagePacks = { ...bundledLanguagePacks, ...languagePacks };
+			}
+		}
 		if (!languagePacks) {
 			return defaultNLSConfiguration(userLocale, osLocale, nlsMetadataPath);
 		}

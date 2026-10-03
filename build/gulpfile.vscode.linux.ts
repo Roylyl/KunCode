@@ -66,7 +66,7 @@ function prepareDebPackage(arch: string) {
 			.pipe(replace('@@NAME@@', product.applicationName))
 			.pipe(rename('usr/share/mime/packages/' + product.applicationName + '-workspace.xml'));
 
-		const icon = gulp.src('resources/linux/code.png', { base: '.' })
+		const icon = gulp.src('resources/kuncode/app-icon.png', { base: '.' })
 			.pipe(rename('usr/share/pixmaps/' + product.linuxIconName + '.png'));
 
 		const bash_completion = gulp.src('resources/completions/bash/code')
@@ -176,7 +176,7 @@ function prepareRpmPackage(arch: string) {
 			.pipe(replace('@@NAME@@', product.applicationName))
 			.pipe(rename('BUILD/usr/share/mime/packages/' + product.applicationName + '-workspace.xml'));
 
-		const icon = gulp.src('resources/linux/code.png', { base: '.' })
+		const icon = gulp.src('resources/kuncode/app-icon.png', { base: '.' })
 			.pipe(rename('BUILD/usr/share/pixmaps/' + product.linuxIconName + '.png'));
 
 		const bash_completion = gulp.src('resources/completions/bash/code')
@@ -205,7 +205,7 @@ function prepareRpmPackage(arch: string) {
 			.pipe(replace('@@STRIP@@', stripBinary))
 			.pipe(rename('SPECS/' + product.applicationName + '.spec'));
 
-		const specIcon = gulp.src('resources/linux/rpm/code.xpm', { base: '.' })
+		const specIcon = gulp.src('resources/kuncode/app-icon.xpm', { base: '.' })
 			.pipe(rename('SOURCES/' + product.applicationName + '.xpm'));
 
 		const all = es.merge(code, desktops, appdata, workspaceMime, icon, bash_completion, zsh_completion, spec, specIcon);
@@ -253,7 +253,7 @@ function prepareSnapPackage(arch: string) {
 			.pipe(replace('@@URLPROTOCOL@@', product.urlProtocol));
 
 		// An icon that is placed in snap/gui will be placed into meta/gui verbatim.
-		const icon = gulp.src('resources/linux/code.png', { base: '.' })
+		const icon = gulp.src('resources/kuncode/app-icon.png', { base: '.' })
 			.pipe(rename(`snap/gui/${product.linuxIconName}.png`));
 
 		const code = gulp.src(binaryDir + '/**/*', { base: binaryDir })

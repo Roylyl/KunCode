@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../../base/common/product.js';
 import * as nls from '../../../../nls.js';
 import * as semver from '../../../../base/common/semver/semver.js';
 import { Event, Emitter } from '../../../../base/common/event.js';
@@ -1564,7 +1565,7 @@ export class ExtensionsWorkbenchService extends Disposable implements IExtension
 		const invalidExtensions = this.local.filter(e => e.enablementState === EnablementState.DisabledByInvalidExtension && !e.isWorkspaceScoped);
 		if (invalidExtensions.length) {
 			if (invalidExtensions.some(e => e.local && e.local.manifest.engines?.vscode &&
-				!isEngineValid(e.local.manifest.engines.vscode, this.productService.version, this.productService.date)
+				!isEngineValid(e.local.manifest.engines.vscode, getVscodeVersion(this.productService), this.productService.date)
 			)) {
 				computedNotificiations.push({
 					message: nls.localize('incompatibleExtensions', "Some extensions are disabled due to version incompatibility. Review and update them."),
@@ -2329,10 +2330,14 @@ export class ExtensionsWorkbenchService extends Disposable implements IExtension
 	}
 
 	private getProductCurrentVersion(): IProductVersion {
-		return { version: this.productService.version, date: this.productService.date };
+		return { version: getVscodeVersion(this.productService), date: this.productService.date };
 	}
 
 	private getProductUpdateVersion(): IProductVersion | undefined {
+		// App update metadata does not declare a fork's next extension API version.
+		if (getVscodeVersion(this.productService) !== this.productService.version) {
+			return undefined;
+		}
 		switch (this.updateService.state.type) {
 			case StateType.AvailableForDownload:
 			case StateType.Downloaded:

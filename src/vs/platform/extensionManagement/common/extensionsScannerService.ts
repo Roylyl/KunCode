@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../base/common/product.js';
 import { coalesce } from '../../../base/common/arrays.js';
 import { ThrottledDelayer } from '../../../base/common/async.js';
 import * as objects from '../../../base/common/objects.js';
@@ -521,7 +522,7 @@ export abstract class AbstractExtensionsScannerService extends Disposable implem
 
 	private getProductVersion(): IProductVersion {
 		return {
-			version: this.productService.version,
+			version: getVscodeVersion(this.productService),
 			date: this.productService.date,
 		};
 	}

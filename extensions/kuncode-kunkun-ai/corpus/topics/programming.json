@@ -1,0 +1,5524 @@
+[
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node找不到",
+      "node命令不存在",
+      "command not found"
+    ],
+    "text": "先看终端能否找到node\n安装后重开终端，再检查PATH指向哪里",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node版本",
+      "运行时版本",
+      "engines字段"
+    ],
+    "text": "版本按项目engines或版本文件选\n别只看机器上装了哪个",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node退出",
+      "进程没退出",
+      "定时器挂住"
+    ],
+    "text": "检查还有没有定时器和打开的句柄\n清理资源后再让进程自然结束",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node阻塞",
+      "事件循环卡住",
+      "同步大文件"
+    ],
+    "text": "同步读大文件会堵住事件循环\n先换异步I/O，CPU重活另走工作线程",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "unhandledrejection",
+      "未处理拒绝",
+      "promise拒绝"
+    ],
+    "text": "异步错误得接住\n每条Promise链都要有明确的等待或错误处理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "uncaughtexception",
+      "未捕获异常",
+      "node崩溃"
+    ],
+    "text": "先保留异常堆栈\n别捕获后假装还能安全继续，清理后退出更稳",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "enoent",
+      "node文件不存在",
+      "相对路径错误"
+    ],
+    "text": "相对路径看的是当前工作目录\n确认运行位置和文件名，再看是否该从脚本目录定位",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "eaddrinuse",
+      "端口占用",
+      "node端口冲突"
+    ],
+    "text": "端口被别的监听占了\n先找占用进程，确认归属后再停或换端口",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "eacces",
+      "node权限错误",
+      "permission denied"
+    ],
+    "text": "先确认目录和端口权限\n不要一报权限错就把整套程序提权",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node内存",
+      "heap out of memory",
+      "堆内存不足"
+    ],
+    "text": "先看对象为什么一直留着\n增大堆只能延后问题，批量处理也要限制并发",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node流背压",
+      "write返回false",
+      "drain事件"
+    ],
+    "text": "write返回false就先停\n等drain再写，否则数据全堆进内存",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node大文件",
+      "readstream",
+      "逐行读取"
+    ],
+    "text": "大文件别一次读完\n用流逐块处理，结束和错误路径都要关资源",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node子进程",
+      "spawn参数",
+      "exec注入"
+    ],
+    "text": "参数尽量通过spawn数组传\n不需要shell就别拼命令字符串",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node工作线程",
+      "worker_threads",
+      "cpu密集"
+    ],
+    "text": "worker适合CPU重活\n普通网络等待先用异步I/O，别多开线程凑热闹",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node模块",
+      "require错误",
+      "esm导入"
+    ],
+    "text": "先对齐模块制式\n看package.json的type和文件扩展名，别混着猜",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node环境变量",
+      "process.env",
+      "配置读取"
+    ],
+    "text": "环境变量读出来通常是字符串\n数值和布尔值要显式解析，再校验范围",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node取消",
+      "abortcontroller",
+      "请求中止"
+    ],
+    "text": "把AbortSignal一路传下去\n取消后还得释放连接和等待任务",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node编码",
+      "buffer乱码",
+      "utf8截断"
+    ],
+    "text": "Buffer是字节不是字符\n分块解码要保留跨块的多字节字符",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node缓存",
+      "require缓存",
+      "模块状态共享"
+    ],
+    "text": "模块缓存会共享导出状态\n测试隔离要看状态生命周期，别随手删缓存顶过去",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Node.js运行时",
+    "keys": [
+      "node优雅退出",
+      "sigterm处理",
+      "服务关停"
+    ],
+    "text": "先停止接新请求\n等在途请求收尾，再关连接和定时器",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "var闭包",
+      "循环闭包",
+      "循环变量错误"
+    ],
+    "text": "循环里的闭包会读到共享变量\n用块级绑定或显式传参，先确认需要哪个值",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js相等",
+      "双等号",
+      "类型转换相等"
+    ],
+    "text": "业务比较优先用严格相等\n需要转换时把转换写出来，结果才看得清",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js浮点",
+      "0.1加0.2",
+      "小数不准"
+    ],
+    "text": "二进制浮点不能精确表示所有十进制小数\n金额按最小单位或合适的十进制方案处理",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js空值",
+      "nullish",
+      "空值合并"
+    ],
+    "text": "空值合并只兜null和undefined\n零和空字符串也是有效值时别用逻辑或兜底",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js可选链",
+      "optional chaining",
+      "属性可能为空"
+    ],
+    "text": "可选链只防空对象访问\n后面真要操作返回值，仍得确认是不是undefined",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js数组排序",
+      "sort数字",
+      "数字排序错误"
+    ],
+    "text": "默认sort按字符串顺序\n数字排序要给比较函数，原数组还会被修改",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js对象复制",
+      "浅拷贝",
+      "spread拷贝"
+    ],
+    "text": "展开运算符只复制一层\n嵌套对象还共享引用，别把浅拷贝当隔离",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js深拷贝",
+      "structuredclone",
+      "循环引用复制"
+    ],
+    "text": "先确认需要复制哪些类型\nJSON序列化会丢信息，结构化克隆也有类型限制",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js异步遍历",
+      "foreach异步",
+      "await foreach"
+    ],
+    "text": "forEach不会等待异步回调\n串行用for循环，并行明确收集Promise再等待",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js并发限制",
+      "promise.all大批量",
+      "请求过多"
+    ],
+    "text": "Promise.all不会限制并发\n任务太多时加队列，别一下把服务压满",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js节流",
+      "throttle",
+      "连续事件"
+    ],
+    "text": "节流是限制调用频率\n先决定头部还是尾部执行，取消时清掉定时器",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js防抖",
+      "debounce",
+      "输入搜索"
+    ],
+    "text": "防抖等的是一段安静时间\n旧请求也要取消或校验顺序，避免结果倒灌",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js日期",
+      "时区偏移",
+      "日期少一天"
+    ],
+    "text": "日期和时间戳不是同一种需求\n纯日期别随便绕UTC转换，先明确时区",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "js正则",
+      "global正则",
+      "lastindex"
+    ],
+    "text": "带g或y的正则会保留lastIndex\n重复test时留意状态，别让结果隔次变",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "ts类型断言",
+      "as强转",
+      "断言不报错"
+    ],
+    "text": "as不会在运行时检查数据\n外部输入先校验，再收窄类型",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "ts泛型",
+      "泛型约束",
+      "keyof"
+    ],
+    "text": "泛型是保留类型关系\n需要某个字段就约束它，别最后全退成any",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "ts联合类型",
+      "辨识联合",
+      "状态判断"
+    ],
+    "text": "用明确的辨识字段区分分支\n这样穷尽检查能帮你发现漏掉的状态",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "ts非空断言",
+      "感叹号断言",
+      "可能undefined"
+    ],
+    "text": "非空断言只是让检查器相信你\n实际可能为空就写分支，别把崩溃往后挪",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "ts类型导入",
+      "import type",
+      "循环依赖类型"
+    ],
+    "text": "纯类型依赖用import type\n运行时循环依赖要另看，类型导入不会生成同样的值依赖",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "JavaScript与TypeScript",
+    "keys": [
+      "ts配置",
+      "strict模式",
+      "类型检查范围"
+    ],
+    "text": "先看项目tsconfig包含了哪些文件\n把严格检查开在实际编译范围里才有用",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python找不到",
+      "python命令不存在",
+      "python path"
+    ],
+    "text": "先确认终端调用的是哪个解释器\n安装后重开终端，别让PATH指向另一个环境",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python虚拟环境",
+      "venv",
+      "环境隔离"
+    ],
+    "text": "一个项目一个环境\n先激活或明确指定解释器，再装依赖",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "pip装错位置",
+      "python -m pip",
+      "pip解释器"
+    ],
+    "text": "用目标解释器运行python -m pip\n这样安装位置和运行环境更容易对上",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "modulenotfounderror",
+      "python模块缺失",
+      "没有这个模块"
+    ],
+    "text": "先看报错模块和当前解释器\n确认包名与导入名是否一致，再查环境里有没有安装",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python同名文件",
+      "模块被遮蔽",
+      "导入自己"
+    ],
+    "text": "看看目录里有没有同名脚本\njson.py之类会遮住标准库，改名后再清理对应缓存",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python版本冲突",
+      "requires-python",
+      "包不支持版本"
+    ],
+    "text": "先读项目和包的Python版本范围\n换兼容环境，别靠忽略版本检查硬装",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "pip依赖冲突",
+      "dependency conflict",
+      "依赖解析失败"
+    ],
+    "text": "把冲突的版本约束列出来\n在干净环境里调整一组兼容依赖，不要盲目全升级",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "requirements锁定",
+      "requirements.txt",
+      "python可复现"
+    ],
+    "text": "区分直接依赖和完整环境记录\n需要可复现部署时固定实际验证过的版本",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "pyproject配置",
+      "pyproject.toml",
+      "python构建后端"
+    ],
+    "text": "先看build-system声明的构建后端\n项目元数据和工具配置别塞进不对应的表",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python路径",
+      "sys.path",
+      "导入路径"
+    ],
+    "text": "先确认项目怎么启动\n包内模块按包运行，比临时往sys.path里乱塞目录稳",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python命令行",
+      "-m运行",
+      "相对导入失败"
+    ],
+    "text": "相对导入需要包上下文\n从项目根目录用模块方式启动，别直接跑包内文件",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python编码设置",
+      "unicodeencodeerror",
+      "控制台编码"
+    ],
+    "text": "先确定输出目标用什么编码\n文件显式指定UTF-8，终端问题再看环境和输出设备",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "pip代理",
+      "python下载超时",
+      "pip连接失败"
+    ],
+    "text": "区分代理配置和源地址\n先看实际连接错误，别同时换源关证书把问题混掉",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python证书",
+      "sslcertverificationerror",
+      "证书验证失败"
+    ],
+    "text": "核对证书链和本机时间\n需要企业证书就正确配置，别默认跳过验证",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python离线安装",
+      "wheel离线",
+      "无网装包"
+    ],
+    "text": "先准备匹配平台和解释器的wheel\n依赖也要一起带上，不是复制一个包就够",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python环境迁移",
+      "复制venv",
+      "迁移虚拟环境"
+    ],
+    "text": "venv里可能含绝对路径\n换机器按依赖清单重建，别直接搬整个环境",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python本地安装",
+      "editable安装",
+      "pip -e"
+    ],
+    "text": "开发本地包可以用可编辑安装\n它适合开发链接，不等于发布后的部署方式",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python包管理",
+      "conda混pip",
+      "混合环境"
+    ],
+    "text": "先确定环境主要由谁管理\n需要pip时在对应环境里用，别跨环境互相覆盖",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python解释器选择",
+      "ide环境不一致",
+      "终端能跑编辑器不行"
+    ],
+    "text": "把编辑器和终端的解释器路径对一下\n同名环境不代表同一个实际位置",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python环境",
+    "keys": [
+      "python清理环境",
+      "卸载包影响项目",
+      "共享解释器"
+    ],
+    "text": "先确认是不是系统或共享环境\n项目环境能重建就重建，别误删别人的依赖",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python可变默认参数",
+      "默认列表",
+      "默认参数共享"
+    ],
+    "text": "默认参数在函数定义时求值\n列表这种可变对象用None占位，再在函数里创建",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python列表别名",
+      "二维列表共享",
+      "列表乘法"
+    ],
+    "text": "重复引用不是复制对象\n二维列表逐行创建，别让所有行指向同一份数据",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python迭代删除",
+      "遍历删列表",
+      "字典大小变化"
+    ],
+    "text": "遍历时修改原容器容易漏项或报错\n生成新容器，或先收集要删的键",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python生成器",
+      "generator",
+      "惰性迭代"
+    ],
+    "text": "生成器按需产出\n它一般只能消费一次，重复遍历得重新创建",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python文件关闭",
+      "with open",
+      "资源泄漏"
+    ],
+    "text": "文件用上下文管理器\n成功和异常都会走退出流程，别只在末尾手动close",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python异常捕获",
+      "except exception",
+      "吞异常"
+    ],
+    "text": "只捕获你能处理的异常\n日志要留堆栈，恢复不了就让调用方知道",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python线程",
+      "gil",
+      "cpu并行"
+    ],
+    "text": "普通CPython线程适合很多I/O任务\nCPU并行要看进程或具体解释器能力，别默认线程就提速",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python异步",
+      "asyncio阻塞",
+      "async里sleep"
+    ],
+    "text": "异步函数里别塞阻塞等待\n能异步就await，阻塞库需要合适的线程隔离",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python协程取消",
+      "cancellederror",
+      "asyncio取消"
+    ],
+    "text": "取消是控制流程的一部分\n清理资源后继续传播取消，不要被通用异常处理吞掉",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python进程池",
+      "multiprocessing入口",
+      "windows多进程"
+    ],
+    "text": "启动进程的代码放到主入口保护里\n可传给子进程的数据也得能序列化",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python字典键",
+      "keyerror",
+      "缺少字段"
+    ],
+    "text": "先判断缺字段是正常情况还是数据错误\nget适合可选值，必需字段缺失应该明确报出来",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python浅拷贝",
+      "copy.copy",
+      "嵌套对象共享"
+    ],
+    "text": "浅拷贝不会拆开嵌套引用\n需要隔离时看对象结构，深拷贝也不是所有资源都能复制",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python排序",
+      "sorted key",
+      "自定义排序"
+    ],
+    "text": "排序规则放进key函数\nsorted返回新列表，原地sort会改原数据",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python时间",
+      "datetime时区",
+      "naive datetime"
+    ],
+    "text": "跨时区时间用带时区对象\n先统一比较基准，再转换成展示时区",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python字符串",
+      "join拼接",
+      "循环字符串"
+    ],
+    "text": "大量片段先收集再join\n别在循环里不断拼成越来越大的字符串",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python正则",
+      "re compile",
+      "正则重复使用"
+    ],
+    "text": "稳定模式可以预编译\n先让表达式准确，再看它有没有灾难性回溯",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python类型标注",
+      "type hints",
+      "运行时类型"
+    ],
+    "text": "类型标注不自动挡住非法输入\n外部数据仍要运行时校验",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python序列化",
+      "pickle不可信",
+      "反序列化数据"
+    ],
+    "text": "不可信数据不要直接pickle.loads\n选限制明确的数据格式，并验证结构",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python断言",
+      "assert校验",
+      "优化模式"
+    ],
+    "text": "assert用于开发期不变量\n输入校验别靠它，优化模式可能移除断言",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Python编程",
+    "keys": [
+      "python装饰器",
+      "functools.wraps",
+      "函数元数据丢失"
+    ],
+    "text": "包装函数时保留元数据\n签名和文档要看wraps及具体包装方式",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "空指针解引用",
+      "nullptr崩溃",
+      "c空指针"
+    ],
+    "text": "先确认指针是否有效\n空指针不能解引用，检查调用约定和失败返回值",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "悬空指针",
+      "use after free",
+      "释放后使用"
+    ],
+    "text": "看谁释放了这块内存\n延长生命周期或明确所有权，别靠地址暂时还能读来判断",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "数组越界",
+      "buffer overflow",
+      "c越界"
+    ],
+    "text": "把索引和长度放一起检查\n越界是未定义行为，没崩溃也不代表没问题",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c内存泄漏",
+      "malloc忘free",
+      "分配释放不配对"
+    ],
+    "text": "每次分配都要有对应释放责任\n异常和提前返回路径也得覆盖",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "重复释放",
+      "double free",
+      "free两次"
+    ],
+    "text": "释放权只能有一个明确所有者\n别让两个分支都认为最后该自己收尾",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "栈变量地址",
+      "返回局部指针",
+      "局部对象失效"
+    ],
+    "text": "函数返回后局部对象就结束了\n返回值或让调用方管理存储，别返回它的地址",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c未初始化",
+      "未初始化变量",
+      "随机数值"
+    ],
+    "text": "先看变量有没有完整初始化\n读未初始化值不能拿来当正常业务逻辑",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c字符串结尾",
+      "空字符终止",
+      "strlen越界"
+    ],
+    "text": "C字符串必须有有效终止符\n长度和容量分清楚，拷贝后别忘记终止条件",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "memcpy重叠",
+      "memmove",
+      "重叠内存拷贝"
+    ],
+    "text": "源和目标可能重叠时用memmove\nmemcpy不保证这种情况的结果",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c整数溢出",
+      "有符号溢出",
+      "加法越界"
+    ],
+    "text": "有符号整数溢出是未定义行为\n运算前检查范围，别先溢出再判断",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c大小计算",
+      "size_t溢出",
+      "分配长度乘法"
+    ],
+    "text": "分配前检查乘法是否超范围\n长度算错后再分配，后面边界检查也救不了",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c指针算术",
+      "指针越界",
+      "数组尾后指针"
+    ],
+    "text": "指针运算限定在同一数组范围及尾后一位\n尾后一位可以比较，不能解引用",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c强制转换",
+      "strict aliasing",
+      "别名规则"
+    ],
+    "text": "别靠随意转换指针读取别的类型\n表示转换用合适的复制或标准设施",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c对齐",
+      "unaligned访问",
+      "结构体指针转换"
+    ],
+    "text": "地址也得满足目标类型的对齐要求\n网络字节别直接强转成结构体读",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "c端序",
+      "大小端",
+      "字节序转换"
+    ],
+    "text": "协议规定的字节序先转换\n本机布局不是跨设备约定",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "cpp引用失效",
+      "vector扩容",
+      "迭代器失效"
+    ],
+    "text": "vector扩容会让旧指针和引用失效\n修改容器后按失效规则重新取得位置",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "unique_ptr所有权",
+      "智能指针转移",
+      "std::move指针"
+    ],
+    "text": "unique_ptr表达独占所有权\n转移后原指针可能为空，用之前要遵守转移后的状态",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "shared_ptr循环",
+      "弱引用",
+      "循环引用泄漏"
+    ],
+    "text": "双向shared_ptr会互相留住对象\n非拥有的一端考虑weak_ptr",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "cpp析构异常",
+      "析构抛异常",
+      "栈展开"
+    ],
+    "text": "析构通常不该向外抛异常\n尤其栈展开期间再抛，会导致终止",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C与C++内存",
+    "keys": [
+      "cpp资源管理",
+      "raii",
+      "异常安全资源"
+    ],
+    "text": "把资源绑定到对象生命周期\n成功、异常和提前返回都能统一收尾",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp头文件",
+      "重复定义",
+      "include guard"
+    ],
+    "text": "头文件要防重复包含\n定义和声明分清楚，别把非内联定义到处复制",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp链接错误",
+      "undefined reference",
+      "未定义引用"
+    ],
+    "text": "编译通过不等于链接通过\n检查实现文件是否参与构建，再看符号和库顺序",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp模板",
+      "模板实现放cpp",
+      "模板链接失败"
+    ],
+    "text": "模板实例化需要看见定义\n常见做法放头文件，或明确显式实例化范围",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp虚函数",
+      "虚析构",
+      "基类删除"
+    ],
+    "text": "通过基类指针删除派生对象时通常需要虚析构\n所有权接口先定清楚",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp移动语义",
+      "std::move",
+      "move并不移动"
+    ],
+    "text": "std::move只是把表达式转成可移动的形式\n实际有没有移动，还要看被调用的操作",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp拷贝构造",
+      "rule of five",
+      "资源对象复制"
+    ],
+    "text": "自管资源时把复制和移动策略一起设计\n能用现成资源类型就先用，减少特殊成员负担",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp异常安全",
+      "strong guarantee",
+      "状态回滚"
+    ],
+    "text": "先明确失败后允许什么状态\n需要强保证时先构造新结果，成功再提交",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp线程安全",
+      "数据竞争",
+      "data race"
+    ],
+    "text": "不同线程并发读写同一普通对象可能产生数据竞争\n用正确同步，不是加volatile",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp原子",
+      "memory_order",
+      "atomic顺序"
+    ],
+    "text": "原子只解决对应操作的同步约定\n跨对象顺序还要选对内存序，别凭感觉降到relaxed",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp条件变量",
+      "condition_variable",
+      "虚假唤醒"
+    ],
+    "text": "等待条件要放在谓词里反复检查\n唤醒不等于业务条件已经成立",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp死锁",
+      "锁顺序",
+      "scoped_lock"
+    ],
+    "text": "多个锁统一获取顺序\n适合的多锁操作用标准设施，别让线程互相等",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cppstring_view",
+      "string_view悬空",
+      "字符串视图"
+    ],
+    "text": "string_view不拥有字符数据\n被引用的字符串先销毁，视图就不能继续用",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cppspan",
+      "std::span",
+      "数组视图"
+    ],
+    "text": "span保存的是一段已有内存的视图\n它不延长底层容器生命周期",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp异常边界",
+      "c接口异常",
+      "跨模块抛异常"
+    ],
+    "text": "异常别无约定地跨C接口或不兼容模块\n在边界转换成明确的错误表示",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cppcmake",
+      "cmake目标",
+      "include目录"
+    ],
+    "text": "构建设置尽量挂到目标上\nPUBLIC和PRIVATE按依赖传播需要选，别全局乱加",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp编译选项",
+      "警告当错误",
+      "编译警告"
+    ],
+    "text": "先读清警告触发条件\n对真实问题修代码，第三方警告按边界隔离",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp地址消毒",
+      "asan",
+      "内存错误检测"
+    ],
+    "text": "地址消毒能帮助定位越界和释放后访问\n它不是证明所有内存路径都安全",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp未定义消毒",
+      "ubsan",
+      "未定义行为检测"
+    ],
+    "text": "让运行时检查帮你抓典型未定义行为\n报错位置往前看，别只修最后崩溃那行",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp构建模式",
+      "debug release",
+      "优化后才崩"
+    ],
+    "text": "优化后崩溃先查未定义行为\n不同优化只是暴露了不同表现，别先怪编译器",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "C++工程",
+    "keys": [
+      "cpp静态库",
+      "动态库",
+      "abi兼容"
+    ],
+    "text": "动态库要对齐ABI和运行时约定\n导出符号、编译器条件和依赖一起看",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java空指针",
+      "nullpointerexception",
+      "java null"
+    ],
+    "text": "从堆栈第一处业务代码看起\n确认哪个对象为空，再决定该初始化还是允许缺失",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java相等",
+      "equals比较",
+      "字符串双等号"
+    ],
+    "text": "对象内容按equals约定比较\n双等号比较引用，别拿字符串碰巧复用当规则",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "javahashcode",
+      "equals hashcode",
+      "hashset重复"
+    ],
+    "text": "equals和hashCode要遵守同一套约定\n相等对象的哈希值必须一致",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java整数装箱",
+      "integer缓存",
+      "包装类型比较"
+    ],
+    "text": "包装类型仍是对象\n需要数值比较时拆箱或用equals，别依赖缓存范围",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java字符串拼接",
+      "stringbuilder",
+      "循环拼接字符串"
+    ],
+    "text": "循环拼接很多片段用合适的缓冲对象\n简单一次拼接先保留可读性",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java泛型擦除",
+      "type erasure",
+      "泛型运行时"
+    ],
+    "text": "泛型主要提供编译期约束\n运行时并不保留所有类型参数信息",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java集合修改",
+      "concurrentmodificationexception",
+      "迭代删除"
+    ],
+    "text": "按迭代器支持的方式删除\n边遍历边随意改集合，会破坏迭代约定",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java不可变集合",
+      "list.of",
+      "unsupportedoperationexception"
+    ],
+    "text": "先看集合是不是不可变的\n需要修改就显式创建可变副本",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java资源关闭",
+      "try with resources",
+      "autocloseable"
+    ],
+    "text": "能用try-with-resources就让作用域管关闭\n异常路径也会执行资源清理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java异常处理",
+      "checked exception",
+      "吞掉异常"
+    ],
+    "text": "异常处理要有恢复或转换目的\n只打印一句再继续，往往把状态问题藏起来",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "javaoptional",
+      "optional get",
+      "空optional"
+    ],
+    "text": "Optional不是让你直接get的包装\n明确缺值时怎么走，再选择对应操作",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java时间",
+      "localdatetime",
+      "instant"
+    ],
+    "text": "Instant表达时间线上一点\nLocalDateTime没有时区，跨地区转换还得补上区域规则",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java金额",
+      "bigdecimal",
+      "精度金额"
+    ],
+    "text": "金额计算用明确的十进制与舍入规则\n从字符串构造通常能避开浮点输入误差",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java线程可见性",
+      "volatile可见性",
+      "共享变量"
+    ],
+    "text": "volatile提供对应的可见性和顺序保证\n复合更新仍可能需要锁或原子操作",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java原子",
+      "atomicinteger",
+      "计数竞争"
+    ],
+    "text": "并发计数要看是否需要原子读改写\n普通自增并不是一条不可分割的操作",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java线程中断",
+      "interruptedexception",
+      "中断标记"
+    ],
+    "text": "中断是协作取消信号\n无法继续处理时按约定恢复标记或向上传递",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java线程池",
+      "executorservice",
+      "线程池不关闭"
+    ],
+    "text": "线程池有生命周期\n任务收尾后按场景关闭，拒绝提交和等待超时也得处理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java反射",
+      "reflect访问",
+      "反射性能"
+    ],
+    "text": "先问是否真需要动态访问\n反射能做事，也增加边界和诊断成本",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "javarecord",
+      "record可变字段",
+      "记录类"
+    ],
+    "text": "record并不让字段引用的对象自动不可变\n放可变集合仍得考虑防御性复制",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java基础",
+    "keys": [
+      "java数组",
+      "数组协变",
+      "arraystoreexception"
+    ],
+    "text": "数组有运行时元素类型检查\n引用类型看着能赋值，不代表所有元素都能存进去",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "javaclasspath",
+      "找不到主类",
+      "classnotfoundexception"
+    ],
+    "text": "确认主类全名和classpath\n包目录和启动命令得对应上",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "javanoclassdeffounderror",
+      "运行时缺依赖",
+      "类初始化失败"
+    ],
+    "text": "先看完整异常原因\n可能是缺类，也可能是之前的静态初始化失败",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java版本不匹配",
+      "unsupportedclassversionerror",
+      "字节码版本"
+    ],
+    "text": "编译目标和运行JDK要兼容\n别只换java命令，构建用的JDK也要检查",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "maven依赖",
+      "maven dependency",
+      "依赖树冲突"
+    ],
+    "text": "用依赖树看是谁带来的版本\n先解决实际冲突路径，不要随意排掉整组依赖",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "gradle依赖",
+      "gradle冲突",
+      "依赖解析"
+    ],
+    "text": "看配置和依赖解析结果\nAPI依赖与实现依赖区分清楚，别让内部库到处传播",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "maven跳测试",
+      "skiptests",
+      "maven test skip"
+    ],
+    "text": "跳过运行和跳过编译不是同一件事\n发布前至少确认相关测试在哪一步实际执行",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java配置外置",
+      "properties配置",
+      "环境配置"
+    ],
+    "text": "把环境差异从代码里拿出来\n必需项启动时校验，别缺配置却带着默认值上线",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java日志",
+      "slf4j",
+      "日志绑定"
+    ],
+    "text": "日志门面和具体实现分开看\n绑定重复会出问题，日志级别也要按环境配置",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java连接池",
+      "jdbc连接",
+      "连接泄漏"
+    ],
+    "text": "连接用完就归还池\n超时、异常和提前返回也必须经过关闭路径",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java事务",
+      "transaction回滚",
+      "异常不回滚"
+    ],
+    "text": "事务边界和回滚规则先确认\n不要只看到注解就认为每个失败都会回滚",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "spring注入",
+      "循环依赖",
+      "bean创建失败"
+    ],
+    "text": "看依赖环里各自承担什么职责\n先拆责任，别靠延迟注入把设计问题永久遮住",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "spring代理",
+      "自调用事务",
+      "注解失效"
+    ],
+    "text": "基于代理的功能要经过代理调用\n同类内部自调用可能绕过这层逻辑",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java序列化",
+      "反序列化风险",
+      "objectinputstream"
+    ],
+    "text": "不可信输入别直接走原生对象反序列化\n限制类型和格式只是边界的一部分",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java堆转储",
+      "heap dump",
+      "内存泄漏对象"
+    ],
+    "text": "看哪些对象被长期引用\n先找保留链和增长趋势，再判断是谁没释放",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java gc",
+      "gc频繁",
+      "垃圾回收停顿"
+    ],
+    "text": "先分配率和存活对象量分开看\n调GC参数前，确认是不是业务在制造大量短命对象",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java启动慢",
+      "类加载耗时",
+      "启动分析"
+    ],
+    "text": "把启动阶段拆开计时\n类加载、配置和外部连接别混成一个总耗时",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java打包",
+      "jar清单",
+      "main-class"
+    ],
+    "text": "可执行jar要有正确入口和依赖方式\n先看清单，再检查运行时需要的库",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java编码",
+      "文件乱码java",
+      "默认字符集"
+    ],
+    "text": "文件读写显式约定编码\n别假设每台机器的默认字符集都一样",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java单元测试",
+      "junit",
+      "测试隔离java"
+    ],
+    "text": "测试别依赖运行先后\n共享静态状态和外部资源要有明确清理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Java工程",
+    "keys": [
+      "java线程泄漏",
+      "后台线程残留",
+      "应用关不掉"
+    ],
+    "text": "看后台线程由谁创建\n生命周期结束时关闭执行器和资源，别只强制杀进程",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf安装",
+      "idf.py找不到",
+      "esp-idf环境"
+    ],
+    "text": "先进入对应ESP-IDF环境\n工具链和Python环境要成套，别只把idf.py加进PATH",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf目标",
+      "set-target",
+      "芯片目标错"
+    ],
+    "text": "先确认板上的实际芯片\n构建目标和芯片不一致，后面的编译下载都可能跑偏",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf构建",
+      "cmake报错idf",
+      "ninja失败"
+    ],
+    "text": "先看第一条真正的构建错误\nNinja退出只是结果，不是根因",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf组件",
+      "component_register",
+      "组件依赖"
+    ],
+    "text": "组件依赖声明清楚\n只内部使用的依赖别无必要地暴露到公共接口",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf配置",
+      "sdkconfig",
+      "menuconfig"
+    ],
+    "text": "先分项目默认配置和本地生成配置\n改选项后确认构建实际用的是哪份",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf版本迁移",
+      "idf升级",
+      "esp-idf兼容"
+    ],
+    "text": "按对应迁移说明逐项看\n接口、配置和工具链一起迁，先跑一个最小工程",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf下载",
+      "flash失败",
+      "串口下载失败"
+    ],
+    "text": "先确认端口和下载模式\n再看供电、线材及串口是否被其他程序占用",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf监视",
+      "idf monitor",
+      "串口监视占用"
+    ],
+    "text": "同一串口通常不能随便被两个工具独占\n先关闭旧监视器再下载",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf擦除",
+      "erase-flash",
+      "擦除数据"
+    ],
+    "text": "擦除会影响保存的数据\n先确认分区和要保留的内容，再决定是否整片擦除",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf分区",
+      "partition table",
+      "分区超范围"
+    ],
+    "text": "分区表要与实际Flash容量一致\n应用大小和偏移都得落在有效范围里",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf app大小",
+      "固件太大",
+      "分区放不下"
+    ],
+    "text": "先看体积由哪些组件构成\n确认分区容量，再决定裁功能或调整布局",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf链接",
+      "undefined reference idf",
+      "组件没编进来"
+    ],
+    "text": "检查组件源文件和依赖声明\n符号实现不在构建里，重跑编译也不会自己出现",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf日志",
+      "esp_log",
+      "日志级别idf"
+    ],
+    "text": "把日志级别按模块分开\n高频路径大量打印会影响时序和性能",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf堆栈",
+      "stack overflow",
+      "任务栈溢出"
+    ],
+    "text": "先看栈高水位和局部大数组\n别把所有任务栈一起放大来猜",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf看门狗",
+      "watchdog",
+      "任务长时间占用"
+    ],
+    "text": "先找哪段代码长期不让出CPU\n增加超时不等于解决阻塞或死循环",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf异常",
+      "panic backtrace",
+      "回溯解码"
+    ],
+    "text": "回溯要配同一次构建的符号文件\n先定位业务调用，再追坏状态从哪来",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf内存",
+      "heap_caps",
+      "分配失败idf"
+    ],
+    "text": "总空闲内存和最大连续块分开看\n能力要求也会限制可用区域",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf配置管理",
+      "kconfig",
+      "组件选项"
+    ],
+    "text": "可配置行为用Kconfig声明\n默认值和依赖关系写清楚，别散落魔法宏",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf单测",
+      "unity idf",
+      "嵌入式测试"
+    ],
+    "text": "纯逻辑先做组件测试\n硬件行为另外验证，别把无法复现的板子状态塞进每个测试",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF工程",
+    "keys": [
+      "idf可复现",
+      "工具链固定",
+      "嵌入式版本记录"
+    ],
+    "text": "记录ESP-IDF版本和工具链条件\n能重建同一工程，比只留一个bin更有用",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp供电",
+      "brownout",
+      "欠压复位"
+    ],
+    "text": "先查供电稳定性\n峰值电流、线材压降和稳压能力都得看，别先关闭欠压检测",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp启动脚",
+      "strapping pins",
+      "启动模式异常"
+    ],
+    "text": "启动相关引脚会在复位时被采样\n外部电路别把它们拉到不合适的状态",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp gpio",
+      "gpio输出无效",
+      "引脚功能"
+    ],
+    "text": "先查对应芯片引脚表\n输入专用、复用和板上已占用的引脚都不能想当然",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp中断",
+      "isr阻塞",
+      "中断里打印"
+    ],
+    "text": "中断里只做短小必要的工作\n把耗时处理通知给任务，不要阻塞等待",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp队列",
+      "freertos队列",
+      "中断发送队列"
+    ],
+    "text": "中断上下文用对应的FromISR接口\n再按API约定处理是否需要切换任务",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp任务优先级",
+      "freertos优先级",
+      "低优先级饿死"
+    ],
+    "text": "高优先级任务也得有阻塞或让出机会\n别用无限忙等把其他任务挤没",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp延时",
+      "vTaskDelay",
+      "tick周期"
+    ],
+    "text": "延时单位要和tick转换对上\n它不是精密定时器，周期任务还要考虑调度抖动",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp互斥",
+      "freertos锁",
+      "共享外设"
+    ],
+    "text": "共享外设先统一所有权\n任务间用合适同步，中断里不要拿会阻塞的互斥锁",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp i2c",
+      "i2c超时",
+      "上拉电阻"
+    ],
+    "text": "先确认地址、连线和上拉\n再看时钟与总线波形，别一报超时就改整套驱动",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp spi",
+      "spi数据错",
+      "时钟相位极性"
+    ],
+    "text": "SPI两端模式必须一致\n片选、时序和传输长度逐项确认",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp uart",
+      "串口乱码",
+      "波特率不一致"
+    ],
+    "text": "波特率和帧格式两端对齐\n还要看地线与电平，乱码不一定只是编码",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp adc",
+      "adc噪声",
+      "采样不准"
+    ],
+    "text": "先查输入范围和校准条件\n模拟电源、布线和采样策略都会影响结果",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp pwm",
+      "ledc配置",
+      "pwm频率分辨率"
+    ],
+    "text": "频率和占空比分辨率有关联\n按芯片能力选组合，别默认两个都能无限提高",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp wifi",
+      "wifi断连",
+      "连接事件"
+    ],
+    "text": "连接状态按事件处理\n掉线重连要限频，别在回调里阻塞整个事件循环",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp蓝牙",
+      "ble mtu",
+      "蓝牙包截断"
+    ],
+    "text": "应用数据长度要适配实际协商结果\n需要分片就明确协议，别当成无限长串口",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp ota",
+      "ota回滚",
+      "升级失败"
+    ],
+    "text": "升级流程要能处理断电和失败\n确认新固件通过健康检查，再按策略标记有效",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp nvs",
+      "nvs写入",
+      "非易失存储"
+    ],
+    "text": "写入频率和Flash寿命要考虑\n关键修改集中提交，别把每次循环都变成写Flash",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp睡眠",
+      "deep sleep",
+      "睡眠唤醒"
+    ],
+    "text": "深睡唤醒可能重新走启动流程\n要保留的状态放到对应存储，别依赖普通RAM不变",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp psram",
+      "外部内存",
+      "psram分配"
+    ],
+    "text": "外部内存不是所有用途都能直接替代内部RAM\nDMA、时序和缓存约束按芯片文档看",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "ESP-IDF硬件",
+    "keys": [
+      "esp电平",
+      "3.3v引脚",
+      "5v输入"
+    ],
+    "text": "先核对芯片和板子的电气规格\n不要默认GPIO耐受5V，需要转换就加合适电路",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git初始化",
+      "git init",
+      "现有目录建仓库"
+    ],
+    "text": "先确认目录里哪些文件该进仓库\n生成物和本地配置先写忽略规则，再初始化提交",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git状态",
+      "git status",
+      "暂存区区别"
+    ],
+    "text": "工作区和暂存区分开看\n提交包含的是暂存内容，不是目录里所有修改",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git添加",
+      "git add",
+      "暂存错文件"
+    ],
+    "text": "先按文件或片段暂存\n提交前看暂存差异，避免把临时日志一起带进去",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git差异",
+      "git diff",
+      "看不到修改"
+    ],
+    "text": "普通diff看未暂存修改\n暂存内容看cached差异，别把空输出当没有变化",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git提交信息",
+      "commit message",
+      "提交描述"
+    ],
+    "text": "写清具体改了什么和为什么\n别只留更新两个字，后面定位很难用",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git忽略",
+      ".gitignore",
+      "忽略无效"
+    ],
+    "text": "忽略规则主要作用于未跟踪文件\n已经跟踪的文件需要明确处理索引状态",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git撤销暂存",
+      "git restore --staged",
+      "取消暂存"
+    ],
+    "text": "撤销暂存不等于丢掉工作区修改\n先选对目标，别把恢复命令混着用",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git丢弃修改",
+      "git restore",
+      "恢复工作区"
+    ],
+    "text": "先看差异里有没有要保留的内容\n恢复工作区会覆盖对应修改，别急着整目录操作",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git分支",
+      "git switch",
+      "切换分支"
+    ],
+    "text": "切换前确认本地修改能否安全带过去\n冲突时先保存修改，不要强制覆盖",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git标签",
+      "git tag",
+      "版本标记"
+    ],
+    "text": "发布标签应该指向确定的提交\n注释标签能记录发布说明，别当成可随意漂移的分支",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git重命名",
+      "git mv",
+      "文件名改动"
+    ],
+    "text": "Git会根据内容判断重命名\n关键是改名前后内容关系，命令本身不会记录一个专门的重命名对象",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git换行",
+      "autocrlf",
+      "gitattributes"
+    ],
+    "text": "仓库的换行规则写进gitattributes\n别靠每个人机器配置碰运气",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git大小写",
+      "仅改大小写",
+      "文件名大小写"
+    ],
+    "text": "大小写不敏感文件系统可能看不出改名\n分两步改名后检查差异，再让Git记录正确拼写",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git二进制",
+      "大文件入仓库",
+      "git lfs"
+    ],
+    "text": "先判断文件是否值得版本管理\n大二进制考虑LFS或发布附件，别把构建包反复塞进历史",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git子模块",
+      "submodule update",
+      "子模块未初始化"
+    ],
+    "text": "主仓库保存的是子模块提交引用\n初始化并更新到记录的提交，别只拉主仓库就认为文件齐了",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git浅克隆",
+      "depth克隆",
+      "历史不完整"
+    ],
+    "text": "浅克隆只拿部分历史\n需要比较旧提交时补历史，别把找不到提交当仓库坏了",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git工作树",
+      "git worktree",
+      "多个分支同时"
+    ],
+    "text": "独立工作树适合并行分支\n每个目录仍要看自己的状态，别跨目录误改文件",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git日志",
+      "git log",
+      "追踪变更"
+    ],
+    "text": "先按文件和时间缩小范围\n看相关提交差异，比只看提交标题靠谱",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git定位",
+      "bisect",
+      "回归在哪次"
+    ],
+    "text": "给bisect一个可重复的好坏判定\n每轮只测目标行为，别把环境故障判成代码坏了",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git基础",
+    "keys": [
+      "git误删",
+      "git reflog",
+      "提交找回"
+    ],
+    "text": "本地reflog可能保留近期引用变动\n先定位要找的提交，确认后再建立新引用",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git冲突",
+      "merge conflict",
+      "合并标记"
+    ],
+    "text": "两边改动意图先读懂\n删冲突标记不等于合并正确，解决后跑受影响的行为",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git拉取",
+      "pull策略",
+      "本地远程分叉"
+    ],
+    "text": "先看双方各有哪些提交\n再决定merge或rebase，别把拉取策略当随便选项",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git变基",
+      "rebase冲突",
+      "改写提交"
+    ],
+    "text": "变基会重写相关提交\n自己的未共享分支更容易处理，共享分支先和协作者对齐",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git强推",
+      "force push",
+      "覆盖远程历史"
+    ],
+    "text": "先确认远程有没有别人新提交\n真要改写历史时用相应保护，别无条件覆盖",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git挑提交",
+      "cherry-pick",
+      "拣选提交"
+    ],
+    "text": "确认这次改动依赖哪些前置提交\n单独拣过来能应用，不代表行为就完整",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git回滚",
+      "revert",
+      "撤回已共享提交"
+    ],
+    "text": "共享历史里的撤回通常用新提交表达\n看回滚对后续提交的影响，再处理冲突",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git暂存",
+      "stash",
+      "临时保存修改"
+    ],
+    "text": "stash能临时保存部分本地状态\n未跟踪文件是否包含要明确，恢复后也可能冲突",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git远程",
+      "remote url",
+      "推错仓库"
+    ],
+    "text": "先看origin实际地址\n目录名字一样，不代表推送目标就一样",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git认证",
+      "ssh公钥",
+      "https认证失败"
+    ],
+    "text": "先区分SSH和HTTPS认证方式\n按对应凭据排查，别把令牌写进仓库或日志",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git权限",
+      "推送被拒绝",
+      "protected branch"
+    ],
+    "text": "看是认证失败还是分支保护\n需要评审就按仓库流程走，不要尝试绕过保护",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git空提交",
+      "empty commit",
+      "触发构建"
+    ],
+    "text": "空提交也会进入历史\n只有流程明确需要时才用，能重跑指定任务就直接重跑",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git贡献",
+      "pr范围",
+      "pull request描述"
+    ],
+    "text": "一个PR尽量围绕一个明确问题\n写触发条件、变化和验证，方便别人判断风险",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git评审",
+      "review comment",
+      "代码审查意见"
+    ],
+    "text": "反馈指向具体行为和后果\n能给复现条件就给，别只说看着不好",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git修复跟进",
+      "review修改",
+      "处理审查意见"
+    ],
+    "text": "先把意见和实际代码对上\n修改后说明解决方式，有分歧就给事实依据",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git签名",
+      "commit签名",
+      "签名验证失败"
+    ],
+    "text": "签名身份和提交身份分别核对\n失败原因看具体工具输出，别改全局配置来猜",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git分支过期",
+      "同步主分支",
+      "长期功能分支"
+    ],
+    "text": "定期看与主分支的差异\n同步后重新确认受影响行为，别临合并才积一堆冲突",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git合并方式",
+      "squash merge",
+      "保留提交"
+    ],
+    "text": "按仓库历史需求选合并方式\n压缩便于看整体，保留提交更利于追踪细粒度改动",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git密钥误提交",
+      "secret进仓库",
+      "凭据泄漏"
+    ],
+    "text": "先停用或轮换真实凭据\n删当前文件不能消除历史暴露，再按仓库流程处理记录",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git克隆失败",
+      "连接重置克隆",
+      "下载仓库中断"
+    ],
+    "text": "先看网络和代理日志\n同样错误反复重试没新信息，先确认失败发生在哪一段",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "Git协作",
+    "keys": [
+      "git取消变基",
+      "rebase abort",
+      "merge abort"
+    ],
+    "text": "想退出当前操作先确认操作类型\n使用对应的中止流程，再检查工作区状态",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "最小复现",
+      "复现步骤",
+      "偶现问题"
+    ],
+    "text": "把触发条件缩到最小\n保留输入和环境差异，别一上来重写整块代码",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "第一条错误",
+      "日志太多",
+      "最后一行失败"
+    ],
+    "text": "先找第一条具体错误\n后面的失败通常只是连锁结果",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "断点不命中",
+      "断点灰色",
+      "代码路径没走"
+    ],
+    "text": "先确认进程和代码版本\n再看调试符号或源码映射，别只反复点断点",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "堆栈追踪",
+      "stack trace",
+      "异常调用链"
+    ],
+    "text": "从最接近业务的那层往上看\n调用链能定位经过哪里，未必直接说明谁造成坏状态",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "变量监视",
+      "watch表达式",
+      "调试副作用"
+    ],
+    "text": "监视表达式也可能执行代码\n带修改状态的函数别当成无害读取",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "条件断点",
+      "断点太频繁",
+      "条件表达式"
+    ],
+    "text": "把条件收紧到异常输入\n条件本身要轻量，也别改变程序状态",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "日志定位",
+      "结构化日志",
+      "请求关联"
+    ],
+    "text": "记录关键状态和关联标识\n别整屏堆字符串，先让同一请求能串起来",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "日志敏感",
+      "日志脱敏",
+      "输出凭据"
+    ],
+    "text": "日志保留诊断所需信息\n密码、令牌和私人内容先做有针对性的脱敏",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "二分排查",
+      "删一半代码",
+      "故障范围"
+    ],
+    "text": "每次只缩小一个维度\n保住可复现条件，不然删到最后只是把问题藏了",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "竞态复现",
+      "时序错误",
+      "一调试就好了"
+    ],
+    "text": "调试会改变时序\n加有边界的状态记录，检查共享资源和操作顺序",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "内存增长",
+      "对象不释放",
+      "长期运行膨胀"
+    ],
+    "text": "看存活对象是不是持续增加\n缓存、订阅和后台任务各找自己的释放点",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "句柄泄漏",
+      "文件开太多",
+      "too many open files"
+    ],
+    "text": "检查每条打开资源的关闭路径\n失败分支和取消路径最容易漏",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "远程调试",
+      "调试端口暴露",
+      "调试服务"
+    ],
+    "text": "调试接口也有访问边界\n按环境限制可达范围，别直接暴露给不相关的人",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "源码映射",
+      "source map",
+      "堆栈位置错"
+    ],
+    "text": "映射要和当前输出文件对应\n旧map配新代码，位置看着准确也可能全错",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "配置排查",
+      "环境差异",
+      "本机能跑"
+    ],
+    "text": "把配置、工作目录和运行身份列出来\n同样代码不代表同样执行条件",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "时间问题",
+      "时钟跳变",
+      "计时负数"
+    ],
+    "text": "耗时统计用单调时钟\n墙上时间会被校准，适合展示但不适合随意相减算耗时",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "随机故障",
+      "随机种子",
+      "无法重现随机"
+    ],
+    "text": "把随机种子和输入记录下来\n重放同样条件，再看哪里开始分叉",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "二进制调试",
+      "符号文件",
+      "release堆栈"
+    ],
+    "text": "符号文件要对应实际程序版本\n先保留这次构建的产物关系，别拿别的符号硬解",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "回归排查",
+      "最近改动",
+      "之前正常"
+    ],
+    "text": "先确认之前正常的具体版本和条件\n没有这个基准，最近改动只是猜测",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "调试定位",
+    "keys": [
+      "调试假设",
+      "一次改多个",
+      "越改越乱"
+    ],
+    "text": "每次验证一个假设\n记下观察结果，再决定下一步改哪里",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试边界",
+      "边界值",
+      "临界输入"
+    ],
+    "text": "正常值之外补边界\n空值、零值和刚超范围的情况，按业务语义挑",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试断言",
+      "只测不崩溃",
+      "没有断言"
+    ],
+    "text": "测试要判断具体结果\n只执行一遍没抛错，不能证明行为符合预期",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试独立",
+      "用例顺序",
+      "共享状态"
+    ],
+    "text": "每个用例都要能单独跑\n共享状态会把顺序变成隐藏前提",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试mock",
+      "模拟过多",
+      "测试实现细节"
+    ],
+    "text": "mock围住外部边界\n核心规则尽量跑真实实现，别把要测的逻辑也模拟掉",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试快照",
+      "snapshot",
+      "快照更新"
+    ],
+    "text": "快照变化先读内容\n确认行为本来就该变，再更新基准",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试异常",
+      "错误路径",
+      "失败场景"
+    ],
+    "text": "测试失败路径里的可观察结果\n错误要传到哪里，资源是否收尾，都按约定判断",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试取消",
+      "cancellation测试",
+      "取消后还输出"
+    ],
+    "text": "覆盖开始前和执行中取消\n结果停止只是一步，挂着的资源也得收掉",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试unicode",
+      "emoji截断",
+      "多字节字符"
+    ],
+    "text": "补一个跨编码边界的输入\n字符、代码点和字节长度分别有自己的语义",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试时间",
+      "定时器测试",
+      "固定sleep"
+    ],
+    "text": "能控制时钟就控制时钟\n别靠等一段时间碰运气，判断目标事件有没有发生",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试并发",
+      "竞争条件测试",
+      "多个请求"
+    ],
+    "text": "让关键操作顺序可控\n覆盖倒序完成和同时修改，别只跑最顺的一条路径",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试输入",
+      "无效数据",
+      "格式错误"
+    ],
+    "text": "无效输入也要有明确结果\n是拒绝、提示还是兜底，先把规则定好",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试属性",
+      "property based",
+      "性质测试"
+    ],
+    "text": "先找长期成立的性质\n比如往返转换或排序不丢元素，别随机生成后只看不崩",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试参数化",
+      "重复用例",
+      "输入表"
+    ],
+    "text": "相同规则用输入表表达\n不同业务场景别硬塞一张表，读起来会看不出意图",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试命名",
+      "用例名称",
+      "测试读不懂"
+    ],
+    "text": "名字写触发条件和预期行为\n别人失败时能直接知道这条规则是什么",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试回归",
+      "修bug补测试",
+      "复现缺陷"
+    ],
+    "text": "测试先能抓住原来的错误\n再验证修复，别只检查你新写的那行代码",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试覆盖率",
+      "coverage",
+      "覆盖率高但没测"
+    ],
+    "text": "覆盖率说明哪些代码经过了\n还要看断言是否真的区分正确和错误结果",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试接口",
+      "契约测试",
+      "接口约定"
+    ],
+    "text": "把调用方和提供方的共同约定写清楚\n字段、错误和兼容条件都按实际使用测",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试极端输入",
+      "大输入测试",
+      "空数组测试"
+    ],
+    "text": "按实现风险选极端情况\n不是每次跑所有规模，挑能触发边界的一组",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试权限",
+      "不同身份",
+      "权限分支"
+    ],
+    "text": "用允许和拒绝两种身份覆盖\n返回码之外，确认拒绝路径没有实际执行受限操作",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试设计",
+    "keys": [
+      "测试资源",
+      "dispose验证",
+      "资源生命周期"
+    ],
+    "text": "按资源真正的作用验证清理\n监听、定时器和连接各看是否还会继续工作",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "单元集成",
+      "测试分层",
+      "端到端范围"
+    ],
+    "text": "规则用单元测试抓\n跨组件连接用集成测试，关键完整流程再交给端到端",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试慢",
+      "测试耗时",
+      "完整测试太久"
+    ],
+    "text": "先跑受影响的最小集合\n改变范围扩大或失败有疑点时，再补对应检查",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试重试",
+      "flaky test",
+      "偶发测试失败"
+    ],
+    "text": "重试只能缓解噪声\n先看是不是时序、共享资源或环境依赖造成的不稳定",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试数据库",
+      "隔离测试库",
+      "数据互相污染"
+    ],
+    "text": "测试数据隔离清楚\n用可控事务或独立实例，别把开发数据当随时可清理的测试库",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试网络",
+      "外部接口不稳",
+      "离线测试"
+    ],
+    "text": "单元测试不要依赖公网状态\n接口集成测试另设明确条件和超时",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试清理",
+      "aftereach",
+      "失败后资源残留"
+    ],
+    "text": "清理放到保证执行的收尾里\n断言失败也要能释放临时资源",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试依赖",
+      "测试框架版本",
+      "安装测试环境"
+    ],
+    "text": "先用项目已有测试入口\n为一个小改动装一整套大依赖，成本通常没必要",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试退出",
+      "测试进程挂住",
+      "测试完成不退出"
+    ],
+    "text": "看还有没有未关闭句柄\n盯住定时器、服务器和工作线程的所有者",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "ci矩阵",
+      "跨平台测试",
+      "windows测试失败"
+    ],
+    "text": "平台差异单独定位\n路径、shell和权限规则最常见，别只在一种系统上猜",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试日志",
+      "ci输出截断",
+      "测试失败日志"
+    ],
+    "text": "保留第一处失败及相关上下文\n输出太多就收紧范围，别让真正错误被淹掉",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试构建",
+      "测试用旧产物",
+      "输出未更新"
+    ],
+    "text": "先确认测试跑的是源码还是生成文件\n需要新输出就做最小转译，别用旧构建判修复",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试缓存",
+      "ci缓存",
+      "缓存污染"
+    ],
+    "text": "缓存应匹配实际依赖条件\n失效一次看结果可以，别把每次清缓存当常规步骤",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试超时",
+      "用例超时",
+      "等待永远不结束"
+    ],
+    "text": "先给等待条件明确边界\n超时后要能结束任务，单纯报失败还留进程不够",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试种子",
+      "随机测试失败",
+      "固定种子重放"
+    ],
+    "text": "失败时输出种子和最小输入\n有了重放入口，随机测试才方便修问题",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试预期",
+      "规范不清楚",
+      "断言争议"
+    ],
+    "text": "先确认产品要求\n实现和测试互相证明不了规则，得有可解释的预期",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试私有函数",
+      "只测内部",
+      "重构测试全坏"
+    ],
+    "text": "优先测对外行为\n内部结构调整不改行为时，不该让所有测试跟着大修",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试报告",
+      "失败汇总",
+      "检查结果"
+    ],
+    "text": "报告写实际跑过的检查\n没执行的别写通过，跳过要说明具体原因",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试冒烟",
+      "smoke test",
+      "安装后启动"
+    ],
+    "text": "冒烟抓入口和关键流程\n能启动只是起点，还要确认这次改动的主要行为",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试性能阈值",
+      "基准波动",
+      "性能测试失败"
+    ],
+    "text": "阈值要结合环境噪声\n先看重复测量分布，再判断是否真正退化",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "测试工程",
+    "keys": [
+      "测试维护",
+      "删除旧测试",
+      "无意义用例"
+    ],
+    "text": "用例对应的规则先确认还存在\n过时就更新或移除，别因为偶尔失败直接删掉",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "性能瓶颈",
+      "先优化哪里",
+      "代码慢"
+    ],
+    "text": "先测哪段耗时最多\n有数据再动，别盯着最显眼的循环就开改",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "性能基准",
+      "benchmark",
+      "优化对比"
+    ],
+    "text": "输入和环境条件保持可比\n看多次结果分布，别拿一次偶然耗时下结论",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "算法复杂度",
+      "大o",
+      "输入变大变慢"
+    ],
+    "text": "看耗时怎么随输入规模增长\n常数和复杂度分开，先修增长最坏的那层",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "重复计算",
+      "缓存计算",
+      "同样数据算多次"
+    ],
+    "text": "先确认结果是否能复用\n缓存键和失效条件明确了，再省重复工作",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "缓存失效",
+      "缓存过期",
+      "脏缓存"
+    ],
+    "text": "缓存要有更新或过期规则\n命中快但返回旧结果，不能算优化成功",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "缓存爆内存",
+      "缓存无限增长",
+      "lru缓存"
+    ],
+    "text": "给缓存设容量或生命周期\n热数据能留下，旧条目也得有退出路径",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "批量操作",
+      "每条一次请求",
+      "n加一查询"
+    ],
+    "text": "把往返次数先降下来\n合并要保留错误定位和事务语义，别只追大批量",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "懒加载",
+      "启动全加载",
+      "首次加载"
+    ],
+    "text": "不急着用的资源可以延后\n首次使用的等待也要可见，别把卡顿藏到用户点击时",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "预分配",
+      "数组频繁扩容",
+      "内存分配多"
+    ],
+    "text": "规模可预测时再考虑预分配\n先看真实分配热点，别为了省一次扩容浪费大量内存",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "减少拷贝",
+      "大对象复制",
+      "零拷贝"
+    ],
+    "text": "先确认谁拥有数据和什么时候能改\n少拷贝不能以悬空引用或并发修改为代价",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "并发提速",
+      "并行任务",
+      "线程越多越慢"
+    ],
+    "text": "并发度受CPU和外部资源限制\n逐步测合适范围，不是任务越多就越快",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "锁竞争",
+      "共享锁热点",
+      "临界区过长"
+    ],
+    "text": "缩短持锁范围\n耗时I/O别放锁里，拆状态时仍要保住一致性",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "数据库慢查询",
+      "查询计划",
+      "全表扫描"
+    ],
+    "text": "先看实际执行计划和数据量\n索引按查询条件设计，别给每个字段都建一遍",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "网络延迟",
+      "接口响应慢",
+      "请求排队"
+    ],
+    "text": "把连接、排队和服务处理分开计时\n总耗时只能说明慢，不能直接指向一个原因",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "渲染卡顿",
+      "主线程长任务",
+      "页面掉帧"
+    ],
+    "text": "先找阻塞主线程的长任务\n拆计算或降低更新频率，别每次小变化都重绘整页",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "节省日志",
+      "高频打印",
+      "日志拖慢"
+    ],
+    "text": "热路径日志限量并按级别控制\n保留排障信息，不用每次循环都打满细节",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "内存峰值",
+      "批量读文件",
+      "峰值过高"
+    ],
+    "text": "把处理过程改成分块或流式\n峰值高不一定是泄漏，也可能是临时数据同时存活",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "正则性能",
+      "灾难性回溯",
+      "正则卡死"
+    ],
+    "text": "先检查重复分支和模糊嵌套量词\n不可信长输入要有限制，别靠加线程顶住",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "优化可读性",
+      "微优化",
+      "代码变难懂"
+    ],
+    "text": "收益先测出来\n只省很小成本却破坏可读性，后续维护可能更贵",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "性能优化",
+    "keys": [
+      "性能回退",
+      "优化后变慢",
+      "优化没效果"
+    ],
+    "text": "回到同样条件重新测\n确认测的是新代码，再看瓶颈是不是转移到了别处",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "单一职责",
+      "一个类太大",
+      "职责混杂"
+    ],
+    "text": "先按变化原因拆责任\n不是把大文件机械切成几个小文件就叫设计好了",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "依赖倒置",
+      "接口抽象",
+      "测试难注入"
+    ],
+    "text": "让核心规则依赖明确接口\n具体I/O放外层，测试就能替换真正的外部边界",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "过度抽象",
+      "抽象层太多",
+      "还没需求先通用"
+    ],
+    "text": "重复还没出现就别急着建框架\n先让一个真实场景清楚，再看哪些差异值得抽出来",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "循环依赖",
+      "模块相互引用",
+      "层级乱"
+    ],
+    "text": "先画出依赖方向\n共享契约往稳定的一层放，别靠延迟加载永久掩盖环",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "领域边界",
+      "模块边界",
+      "业务耦合"
+    ],
+    "text": "把各模块负责的状态和规则定清楚\n跨边界走明确接口，别直接改别人的内部存储",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "状态机",
+      "状态组合太多",
+      "流程分支乱"
+    ],
+    "text": "列出合法状态和转换\n不能发生的组合不要让数据结构轻易表达出来",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "事件设计",
+      "事件驱动",
+      "事件当流程调用"
+    ],
+    "text": "广播变化适合事件\n需要明确结果和顺序时，直接调用通常更好追踪",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "错误模型",
+      "错误码设计",
+      "返回null还是抛错"
+    ],
+    "text": "把正常缺失和执行失败分开\n调用方得能知道该重试、提示还是终止",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "配置优先级",
+      "全局工作区设置",
+      "配置覆盖"
+    ],
+    "text": "先定默认、用户和工作区的优先级\n写默认值时尊重用户已明确选择的内容",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "生命周期",
+      "资源所有权",
+      "谁来dispose"
+    ],
+    "text": "创建资源时就写清谁收尾\n重复调用的方法别把临时资源永远挂到全局对象上",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "不可变状态",
+      "状态快照",
+      "共享修改"
+    ],
+    "text": "能用不可变快照就减少共享修改\n复制成本和更新频率也要按实际场景算",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "api兼容",
+      "破坏性变更",
+      "老调用方"
+    ],
+    "text": "先列出旧调用方依赖的行为\n迁移要有明确窗口和替代路径，别只改签名就结束",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "数据迁移",
+      "旧配置格式",
+      "升级后数据"
+    ],
+    "text": "迁移逻辑需要能识别旧格式\n失败保留原数据，别写一半就覆盖唯一副本",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "回滚设计",
+      "发布回退",
+      "兼容旧数据"
+    ],
+    "text": "代码能回退还不够\n新数据能否被旧版本读懂，也得提前考虑",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "重构边界",
+      "重构顺手改需求",
+      "改动太散"
+    ],
+    "text": "重构先保持对外行为\n需求变化单独说明，评审才看得出哪里可能变了",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "插件接口",
+      "扩展点",
+      "第三方插件"
+    ],
+    "text": "接口定义越明确越好\n版本、失败和资源释放要有约定，别把主程序内部对象全暴露",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "单例状态",
+      "全局对象",
+      "测试污染"
+    ],
+    "text": "先确认这个状态真的需要全局\n按会话或作用域保存的，就别共享给所有请求",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "业务规则",
+      "魔法数字",
+      "硬编码阈值"
+    ],
+    "text": "阈值写出单位和来源\n变化频繁的规则集中管理，但别把每个常量都塞进配置",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "幂等设计",
+      "重复执行",
+      "重复提交"
+    ],
+    "text": "同样请求重复到达要有明确结果\n重试前先解决重复副作用，不是只加等待",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "架构设计",
+    "keys": [
+      "可观测性",
+      "监控指标",
+      "上线才排查"
+    ],
+    "text": "关键路径提前放好指标和关联信息\n能看见失败在哪一层，比事后补海量日志稳",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "http状态码",
+      "响应码选择",
+      "错误码接口"
+    ],
+    "text": "状态码表达协议层结果\n业务细节放结构化错误里，别每种情况都回成功",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "接口超时",
+      "请求没返回",
+      "timeout"
+    ],
+    "text": "连接和响应等待都设合理边界\n超时后还要停止后续处理，别让旧请求继续占资源",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "请求重试",
+      "自动重试",
+      "网络失败重发"
+    ],
+    "text": "先确认操作是否可安全重复\n再做有限重试和退避，别把重复扣款之类问题重试出来",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "指数退避",
+      "重连风暴",
+      "backoff"
+    ],
+    "text": "退避加一点随机扰动\n让客户端分散重试，避免同一时刻再次挤满服务",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "请求顺序",
+      "旧响应覆盖",
+      "搜索结果倒灌"
+    ],
+    "text": "给请求关联顺序或取消旧任务\n响应回来时只更新仍有效的那次状态",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "接口分页",
+      "分页重复",
+      "分页遗漏"
+    ],
+    "text": "排序规则必须稳定\n数据会变化时考虑游标语义，别只靠页码猜连续性",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "接口鉴权",
+      "401和403",
+      "访问凭据"
+    ],
+    "text": "认证失败和权限不足分开处理\n客户端不该因为缺权限就反复刷新令牌",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "cors错误",
+      "跨域请求",
+      "浏览器跨域"
+    ],
+    "text": "CORS是浏览器执行的访问控制约定\n看预检和响应头，不是给前端换个URL就必然解决",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "http缓存",
+      "etag",
+      "缓存验证"
+    ],
+    "text": "缓存头按内容变化规律设\n有验证条件就协商验证，别让所有内容永久旧着",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "websocket心跳",
+      "长连接断开",
+      "断线重连"
+    ],
+    "text": "应用要识别半开连接\n心跳、重连和会话恢复分别设计，连接回来不代表状态都恢复",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "tcp分包",
+      "粘包",
+      "消息边界"
+    ],
+    "text": "TCP提供字节流\n应用协议自己定义长度或分隔，别把一次read当一条消息",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "udp丢包",
+      "乱序数据",
+      "datagram"
+    ],
+    "text": "UDP不保证到达和顺序\n需要这些保证就自己设计协议或选择更合适传输",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "dns解析",
+      "域名打不开",
+      "解析结果"
+    ],
+    "text": "先把DNS失败和连接失败分开\n解析到地址后，连通性和证书仍是另一层",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "tls证书",
+      "证书过期",
+      "hostname不匹配"
+    ],
+    "text": "证书链、域名和有效期都要满足\n别把关闭验证当长期修复",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "代理设置",
+      "http_proxy",
+      "网络代理"
+    ],
+    "text": "看请求工具实际支持哪种代理配置\n终端和应用未必共用一套环境",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "接口限流",
+      "429",
+      "请求频率"
+    ],
+    "text": "尊重服务给的重试提示\n先降并发或频率，别用更多请求冲过限制",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "上传文件",
+      "文件流上传",
+      "上传中断"
+    ],
+    "text": "文件大小和内容类型先校验\n中断时清理未完成状态，别留下永远占空间的临时块",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "下载续传",
+      "range请求",
+      "断点续传"
+    ],
+    "text": "续传先确认服务支持范围请求\n资源版本变了就不能把旧片段盲目拼进去",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "接口版本",
+      "字段新增",
+      "接口兼容"
+    ],
+    "text": "新增字段通常要考虑旧客户端是否容忍\n删除和改含义更要有迁移约定",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "接口与网络",
+    "keys": [
+      "json输入",
+      "请求体校验",
+      "字段类型"
+    ],
+    "text": "JSON能解析只是第一步\n字段类型、长度和业务范围继续校验",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "sql参数",
+      "sql注入",
+      "拼接查询"
+    ],
+    "text": "数据通过参数绑定传进去\n表名等标识符不能当普通值参数，要用受控选择",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据库事务",
+      "多步写入",
+      "原子提交"
+    ],
+    "text": "需要一起成立的写入放在事务边界内\n外部副作用不能自动跟数据库一起回滚",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "唯一约束",
+      "重复数据",
+      "并发重复插入"
+    ],
+    "text": "唯一性放到数据库约束里守住\n先查再插仍可能在并发下撞车",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据库索引",
+      "复合索引",
+      "索引顺序"
+    ],
+    "text": "复合索引按实际过滤和排序模式设计\n是否用上看执行计划，别只凭字段出现过",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "分页数据库",
+      "offset慢",
+      "深分页"
+    ],
+    "text": "深OFFSET可能跳过很多记录\n业务允许时用稳定排序和游标方式减少扫描",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据库连接",
+      "连接池满",
+      "连接等待"
+    ],
+    "text": "先看连接有没有及时归还\n再看长事务和并发，盲目加池大小可能把数据库压垮",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据库锁",
+      "锁等待",
+      "长事务"
+    ],
+    "text": "锁持有时间和事务范围一起看\n把不必要的等待移出事务，别先调大超时",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "隔离级别",
+      "脏读",
+      "不可重复读"
+    ],
+    "text": "按业务要避免的异常选隔离级别\n更强隔离也有代价，需要知道冲突怎么处理",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据库迁移",
+      "migration脚本",
+      "表结构升级"
+    ],
+    "text": "迁移前看现有数据能不能满足新约束\n操作顺序和回退计划写清楚",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据备份",
+      "恢复演练",
+      "备份可用"
+    ],
+    "text": "备份得能恢复才算有用\n挑实际恢复流程验证，别只确认目录里有文件",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "null数据库",
+      "空字符串数据库",
+      "缺值语义"
+    ],
+    "text": "NULL和空字符串不要混成一种情况\n查询条件和唯一性行为按数据库约定看",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "时间字段",
+      "utc存储",
+      "数据库时区"
+    ],
+    "text": "存储和展示时区先约定\n时间点、日期和本地预约时间不能都用同一种转换",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "金额字段",
+      "decimal数据库",
+      "钱的精度"
+    ],
+    "text": "字段精度和舍入规则跟业务一致\n别让客户端和数据库分别用两套隐含规则",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据导入",
+      "csv导入",
+      "脏数据"
+    ],
+    "text": "导入先校验结构和必需字段\n错误记录可定位，别一半成功一半失败却没有清单",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据导出",
+      "csv公式注入",
+      "表格内容"
+    ],
+    "text": "导出的文本可能被表格当公式执行\n来自不可信输入的单元格按目标格式安全处理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "json大数据",
+      "序列化内存",
+      "大结果返回"
+    ],
+    "text": "控制返回规模\n大数据分页或流式输出，别把整库一次序列化进内存",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据库软删除",
+      "deleted标记",
+      "查询漏过滤"
+    ],
+    "text": "软删除的查询约定要统一\n唯一性、关联和归档都得考虑，不是加一个布尔字段就完了",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据一致性",
+      "缓存数据库不同步",
+      "双写"
+    ],
+    "text": "先决定谁是权威来源\n双写失败要有修复路径，不能只靠正常顺序保持一致",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "乐观锁",
+      "版本字段",
+      "并发覆盖"
+    ],
+    "text": "更新时带预期版本判断\n冲突让调用方知道，再决定重试或合并",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "数据与数据库",
+    "keys": [
+      "数据最小化",
+      "收集字段",
+      "不用的数据"
+    ],
+    "text": "只保存当前功能真正需要的数据\n生命周期和删除规则一起定，别为了以后可能有用全收",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai生成代码",
+      "复制ai代码",
+      "生成结果验证"
+    ],
+    "text": "先看接口和业务约束\nAI给的代码还要跑目标行为，别只因为解释顺就合进去",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai幻觉",
+      "虚构api",
+      "不存在的方法"
+    ],
+    "text": "回到实际依赖和源码查接口\n名字看着像，不代表库里真的有",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai提示词",
+      "需求怎么写",
+      "给ai上下文"
+    ],
+    "text": "把目标、输入输出和限制说清楚\n给一个真实例子，比堆一页形容词有用",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai长上下文",
+      "上下文太多",
+      "全仓库丢进去"
+    ],
+    "text": "先给相关调用链和错误\n无关文件越多，关键约束越容易被淹掉",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai修改范围",
+      "越界改代码",
+      "顺手大重构"
+    ],
+    "text": "明确允许改哪些行为和文件\n小问题先做小改动，别让它顺手换掉整套设计",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai审查",
+      "让ai review",
+      "审查误报"
+    ],
+    "text": "每条意见都找触发条件和影响\n没有可解释行为的泛泛建议，先别照单全收",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai测试",
+      "ai写测试",
+      "测试只证实现"
+    ],
+    "text": "让测试对着需求和原缺陷写\n如果错误实现也能过，那测试还没抓住问题",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai联网",
+      "知识截止",
+      "实时版本"
+    ],
+    "text": "本地语料匹配不能替代实时查询\n版本和现状去对应官方来源确认",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai敏感信息",
+      "凭据给ai",
+      "上传私有代码"
+    ],
+    "text": "先看工具的数据使用边界\n凭据和无关私人内容别直接贴进去",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai提示注入",
+      "文件里有指令",
+      "网页指令"
+    ],
+    "text": "外部内容当资料读\n里面要求执行命令或改规则，不自动变成用户授权",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai自动执行",
+      "命令授权",
+      "代理行动"
+    ],
+    "text": "执行前看用户授权范围\n可逆小改动可以推进，真实外部副作用按任务边界处理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai不确定",
+      "编造通过测试",
+      "声称已运行"
+    ],
+    "text": "实际没运行就别写通过\n把已确认的结果和待验证部分分清楚",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai解释代码",
+      "解释与实现不符",
+      "总结代码"
+    ],
+    "text": "让解释回到具体分支和数据流\n说得顺不代表对应代码真的这样运行",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai重构",
+      "大规模重写",
+      "ai优化"
+    ],
+    "text": "先定义要改善的实际问题\n保住对外行为和回归检查，再决定需要多大改动",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai工具调用",
+      "调用失败重试",
+      "重复动作"
+    ],
+    "text": "先分析已有错误和状态\n没有新信息就别重复同一个失败动作",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai计划",
+      "只列计划不执行",
+      "编程代理停住"
+    ],
+    "text": "计划得能落到具体修改\n授权范围内先做可评审结果，再报告还缺什么",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai引用",
+      "来源链接",
+      "假引用"
+    ],
+    "text": "链接得真能支持对应结论\n找不到来源就保留不确定，别拼一个像真的地址",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai会话记忆",
+      "跨会话设置",
+      "记忆过期"
+    ],
+    "text": "历史信息可以省查找\n容易变化的状态便宜就现场确认，别把旧记录当当前事实",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai比较答案",
+      "多个模型答案",
+      "多数模型同意"
+    ],
+    "text": "多个模型重复同一说法不等于独立证据\n按实际接口、数据或实验结果判断",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "AI辅助编程",
+    "keys": [
+      "ai本地助手",
+      "困困能力",
+      "本地匹配"
+    ],
+    "text": "困困AI按本地场景语料匹配\n它能给短建议，复杂问题还得拿源码和实际条件继续查",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "安装包来源",
+      "官方下载",
+      "工具下载"
+    ],
+    "text": "先认清官方项目和下载来源\n广告里的下载按钮不一定是你要的工具",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "安装架构",
+      "arm64和x64",
+      "装错架构"
+    ],
+    "text": "先看机器和目标程序的架构\n同一个系统也有不同架构，别只按文件名字选",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "安装路径",
+      "空格路径",
+      "路径带中文"
+    ],
+    "text": "路径参数按工具规则正确引用\n先读具体报错，别默认所有中文路径都不能用",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "安装权限",
+      "管理员安装",
+      "用户级安装"
+    ],
+    "text": "按实际需要选用户级或系统级\n能普通权限完成的，就别让所有程序都提权",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "环境变量",
+      "修改path",
+      "路径不生效"
+    ],
+    "text": "PATH按目录项配置\n改完重开相关进程，已打开终端可能还拿着旧环境",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "版本共存",
+      "多个工具版本",
+      "版本管理器"
+    ],
+    "text": "先用项目约定选版本\n版本管理器可以切换，但实际命令路径还是要确认",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "卸载工具",
+      "残留配置",
+      "删安装目录"
+    ],
+    "text": "先走正常卸载流程\n配置是否保留另作决定，别直接删目录后留坏掉的入口",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "包管理器",
+      "winget",
+      "brew安装"
+    ],
+    "text": "确认包标识和来源\n安装完成后检查命令是否可用，别只凭安装输出判断使用条件",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "代理安装",
+      "下载被阻断",
+      "安装超时"
+    ],
+    "text": "先看失败是解析、连接还是证书\n按具体一层修，不要一次改所有网络设置",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "证书安装",
+      "企业证书",
+      "受信任根"
+    ],
+    "text": "只有确认来源和用途才信任证书\n别为消掉报错随手把未知证书放进信任库",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "解压工具",
+      "archive损坏",
+      "解压路径"
+    ],
+    "text": "先看压缩格式和工具支持\n报路径错和数据损坏是两回事，别混着处理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "安装被占用",
+      "文件正在使用",
+      "更新失败"
+    ],
+    "text": "先关闭使用相关文件的进程\n确认不是后台服务还在占用，再重新安装",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "安装空间",
+      "磁盘满",
+      "临时目录空间"
+    ],
+    "text": "安装目录和临时目录都要有空间\n只看最终程序大小，可能低估解压与构建峰值",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "离线工具",
+      "离线安装器",
+      "离线依赖"
+    ],
+    "text": "离线包要包含实际运行依赖\n提前记录平台条件，别到无网机器上才发现还要下载",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "便携工具",
+      "portable配置",
+      "绿色版"
+    ],
+    "text": "便携版的配置位置要确认\n并非所有便携包都会把数据留在程序目录里",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "工具自动更新",
+      "升级提示",
+      "项目版本固定"
+    ],
+    "text": "项目依赖的工具别无条件追最新\n按兼容要求升级，再验证真正用到的功能",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "编译器安装",
+      "build tools",
+      "缺本地编译工具"
+    ],
+    "text": "先确认依赖为什么要本地编译\n缺的是对应工具链时再装，不要看到失败就装全家桶",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "jdk安装",
+      "jdk和jre",
+      "javac找不到"
+    ],
+    "text": "需要编译时得有相应开发工具\njava能跑不等于javac也在当前环境里",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "cmake安装",
+      "cmake命令找不到",
+      "构建工具版本"
+    ],
+    "text": "按项目最低要求选工具\n安装完成重开终端，再确认命令路径",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "工具命令别名",
+      "同名命令",
+      "which和where"
+    ],
+    "text": "同名命令可能被别名或脚本遮住\n先查实际解析目标，再判断安装是否有问题",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide启动",
+      "编辑器打不开",
+      "扩展启动失败"
+    ],
+    "text": "先看启动日志和最近变化\n缩小到有问题的扩展或配置，别直接清掉全部设置",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide卡顿",
+      "扩展占cpu",
+      "编辑器变慢"
+    ],
+    "text": "把扩展和工作区影响分开\n有诊断工具就先看热点，别无差别禁用后当作修好了",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide主题",
+      "主题被改回",
+      "全局主题覆盖"
+    ],
+    "text": "扩展默认值不该反复盖过用户选择\n检查谁在启动时写全局设置",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide字体",
+      "连字显示",
+      "代码看不清"
+    ],
+    "text": "按阅读需求调字体和连字\n先确认只是显示问题，别为了视觉差异改源文件",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide格式化",
+      "保存自动改代码",
+      "多个格式化器"
+    ],
+    "text": "给对应语言选定格式化器\n格式和lint规则对齐，别让两个工具来回改",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide换行",
+      "lf和crlf",
+      "文件换行提示"
+    ],
+    "text": "项目换行约定优先\n只改有关文件，别因为一个提示把整个仓库换行重写",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide终端",
+      "终端环境不同",
+      "集成终端命令错"
+    ],
+    "text": "看终端shell和启动环境\n编辑器进程启动时间也会影响继承的PATH",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide调试配置",
+      "launch.json",
+      "启动参数"
+    ],
+    "text": "程序、工作目录和参数分别填清楚\n别把整条shell命令硬塞进程序路径",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide任务配置",
+      "tasks.json",
+      "构建任务"
+    ],
+    "text": "按shell或process任务类型写参数\n引号规则不同，别把显示字符串当真正的参数数组",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide源码导航",
+      "跳转定义错",
+      "索引旧了"
+    ],
+    "text": "先看工作区和语言服务用的配置\n重复依赖或生成文件可能让导航指到另一个实现",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide语言服务",
+      "intellisense",
+      "补全失效"
+    ],
+    "text": "确认文件语言和项目配置\n先看语言服务日志，别把没有补全直接判成编辑器坏了",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide远程",
+      "远程扩展",
+      "ssh工作区"
+    ],
+    "text": "区分扩展跑在本机还是远端\n环境和文件路径要看执行那一边",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide多根工作区",
+      "multi-root",
+      "工作区设置"
+    ],
+    "text": "每个根目录可能有自己的配置\n读取设置时带对作用域，别拿一个全局值套所有项目",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide扩展卸载",
+      "禁用扩展",
+      "扩展冲突"
+    ],
+    "text": "按影响范围逐个排查\n禁用与卸载不同，先用可逆方式定位冲突",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide扩展权限",
+      "扩展联网",
+      "不可信工作区"
+    ],
+    "text": "扩展的执行权限和工作区信任要看清\n来源未知的项目先别自动运行里面的任务",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide监听泄漏",
+      "event订阅",
+      "重复注册"
+    ],
+    "text": "创建监听就确定释放归属\n重复打开视图别累积同一套事件处理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "idewebview",
+      "网页消息",
+      "webview输入"
+    ],
+    "text": "网页消息先验证类型和字段\n只开放需要的动作，别把任意消息直接当命令执行",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide快捷键",
+      "快捷键冲突",
+      "键绑定没反应"
+    ],
+    "text": "看同一个键在哪些上下文有效\n冲突按when条件调整，别只反复绑定相同快捷键",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide搜索排除",
+      "找不到文件",
+      "搜索忽略"
+    ],
+    "text": "看搜索范围和排除设置\n文件在磁盘上，不代表当前搜索会包含它",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "IDE与扩展",
+    "keys": [
+      "ide本地助手",
+      "默认聊天模型",
+      "模型不显示"
+    ],
+    "text": "先确认提供器注册和模型信息\n配置里的标识要和实际注册结果一致",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "编程入门",
+      "第一次学代码",
+      "从哪门语言开始"
+    ],
+    "text": "先按想做的项目选一门\n做出一个小程序，再补它用到的概念",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学python",
+      "python学习路线",
+      "python入门"
+    ],
+    "text": "先掌握输入输出、分支循环和函数\n拿一个小任务串起来，比只看语法表更容易记住",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学c++",
+      "cpp学习路线",
+      "c++入门"
+    ],
+    "text": "基础语法之外重点看对象生命周期\n先写清所有权，再逐步接触模板和并发",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学java",
+      "java学习路线",
+      "java入门"
+    ],
+    "text": "先把类、集合和异常用起来\n做一个能保存数据的小程序，再学更大的框架",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学node",
+      "node学习路线",
+      "node入门"
+    ],
+    "text": "先理解模块和异步流程\n写一个小接口，自己处理一次失败和取消",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学esp-idf",
+      "嵌入式入门",
+      "第一次烧板"
+    ],
+    "text": "先用官方最小示例跑通构建和下载\n再一次加一个外设，别同时堆整板功能",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "只看教程",
+      "视频看完不会",
+      "代码看懂写不出"
+    ],
+    "text": "把教程关一会儿\n从空文件复现一个小功能，卡在哪就回看哪一段",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "刷题方法",
+      "算法练习",
+      "题做完就忘"
+    ],
+    "text": "复盘输入、约束和关键选择\n过几天重做一次，别只记最终代码",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学数据结构",
+      "数据结构入门",
+      "链表树图"
+    ],
+    "text": "先理解各结构支持什么操作\n拿小数据手动走一遍，再看复杂度",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学习调试",
+      "不会调试",
+      "报错只会问"
+    ],
+    "text": "从读第一条错误和调用栈开始\n练一次最小复现，再用断点验证一个假设",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学测试",
+      "测试入门",
+      "第一次写用例"
+    ],
+    "text": "从一个真实规则开始\n写正常、边界和失败结果，先别追框架花样",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "代码读不懂",
+      "阅读源码",
+      "大仓库入门"
+    ],
+    "text": "从一个具体功能的入口往下走\n记录数据经过哪几层，不用第一天读完整仓库",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学git",
+      "git学习路线",
+      "第一次协作"
+    ],
+    "text": "先练工作区、暂存和提交\n再练分支和冲突，知道每个命令改变哪一层",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "学习计划编程",
+      "每天学多久",
+      "编程时间安排"
+    ],
+    "text": "按能持续投入的时间排\n每次留一个可验收的小结果，别把计划写成全天满载",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "编程卡住",
+      "学不下去",
+      "代码一直不会"
+    ],
+    "text": "先把问题缩小\n你卡的是语法、思路还是工具环境，选一个继续查",
+    "mode": "explain",
+    "action": "question"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "换语言焦虑",
+      "语言太多",
+      "又想学新语言"
+    ],
+    "text": "先看现有目标需不需要它\n还没做出一个完整小项目，通常不用急着换栈",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "项目练习",
+      "学完做什么",
+      "练手项目"
+    ],
+    "text": "选输入输出明确的小项目\n自己补错误处理和说明，别只复制展示效果",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "困教练刷题",
+      "安排战术刷题",
+      "教练模式算法"
+    ],
+    "text": "困教练先定一题\n独立想法写出来，再跑边界\n做完只复盘一个关键点",
+    "mode": "coach",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "困教练学python",
+      "教练口吻python",
+      "队员python"
+    ],
+    "text": "今天先拿文件读写练手\n做一个统计行数的小工具\n报错和空文件都处理了，再加功能",
+    "mode": "coach",
+    "action": "plan"
+  },
+  {
+    "cat": "编程学习",
+    "keys": [
+      "困教练写项目",
+      "安排战术项目",
+      "队员项目"
+    ],
+    "text": "先定今天的最小交付\n一个入口、一条正常路径、一条失败路径\n做完再扩范围",
+    "mode": "coach",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "需求不清",
+      "验收条件",
+      "要做什么功能"
+    ],
+    "text": "先把输入、输出和完成条件写清楚\n没有验收标准，做得再多也很难知道是不是做对了",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "需求变更",
+      "中途加功能",
+      "范围扩大"
+    ],
+    "text": "把新增目标和成本摆出来\n先确认优先级，别悄悄塞进原来的交付时间",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "项目拆任务",
+      "任务分工",
+      "多人协作"
+    ],
+    "text": "按可独立交付的结果拆任务\n责任人和接口定清楚，别只按文件数量分人",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "进度估计",
+      "开发工期",
+      "估时不准"
+    ],
+    "text": "把已知工作和不确定部分分开\n先给风险范围，再用小步结果更新估计",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "项目延期",
+      "来不及上线",
+      "交付赶工"
+    ],
+    "text": "先保住核心流程\n删减范围要明确说明，别把验证和错误处理都当可砍项",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "发布前检查",
+      "上线准备",
+      "发布清单"
+    ],
+    "text": "围绕这次变化查关键路径\n配置、依赖和恢复方式要对上，别机械重跑所有检查",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "发布说明",
+      "release notes",
+      "用户更新说明"
+    ],
+    "text": "写用户能感知的变化\n已知限制说清楚，不用把全部内部改动都搬进去",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "打包产物",
+      "安装器",
+      "构建完成"
+    ],
+    "text": "构建成功后看实际产物\n入口、安装和主要功能按交付目标验证，别只认日志里一句完成",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "可复现构建",
+      "锁文件",
+      "依赖漂移"
+    ],
+    "text": "锁定依赖和构建条件\n发布时用对应锁文件，别让同一源码每天装出不同依赖",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "ci失败",
+      "流水线红了",
+      "远程构建失败"
+    ],
+    "text": "先看最早失败的任务日志\n基础环境问题和代码失败分开，再决定修哪一层",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "ci权限",
+      "actions权限",
+      "workflow token"
+    ],
+    "text": "每个任务只给需要的权限\n读检查不用顺手获得发布或写仓库权限",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "ci依赖更新",
+      "dependabot",
+      "自动升级失败"
+    ],
+    "text": "先判断失败是否由这次升级引起\n版本变化按兼容说明看，别因为是机器人提交就直接合",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "工程系统保护",
+      "构建文件pr",
+      "保护检查误报"
+    ],
+    "text": "保护规则得按实际仓库维护方式配置\n依赖升级与未知脚本变更分开判断",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "版本号",
+      "语义化版本",
+      "大版本升级"
+    ],
+    "text": "版本按对外变化定\n破坏兼容时明确迁移要求，别只有数字变大却没说明行为",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "配置文档",
+      "运行说明",
+      "别人跑不起来"
+    ],
+    "text": "写最短可复现的启动路径\n前提和入口说清楚，用实际项目配置校准命令",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "项目readme",
+      "快速入门",
+      "仓库首页"
+    ],
+    "text": "先说明用途和能做什么\n快速入门要能照着跑，别让徽标比实际入口还显眼",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "代码评审范围",
+      "大pr",
+      "一次改太多"
+    ],
+    "text": "按问题拆成可理解的变化\n评审得能看清每个改动的理由，不是差异越多越显得做了事",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "项目复盘",
+      "踩坑记录",
+      "开发总结"
+    ],
+    "text": "记录触发条件和有效办法\n没有证据的猜测单独标出来，下次才知道能复用哪一部分",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "用户反馈",
+      "缺陷反馈",
+      "截图没上下文"
+    ],
+    "text": "先收一个具体触发步骤\n截图能说明表现，输入、环境和预期还得补齐",
+    "mode": "explain",
+    "action": "question"
+  },
+  {
+    "cat": "项目交付",
+    "keys": [
+      "维护债务",
+      "技术债",
+      "历史代码难改"
+    ],
+    "text": "先挑正在妨碍交付的那一块\n有目标地改善，比把所有旧代码一次翻新更可控",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "跨平台路径",
+      "路径分隔符",
+      "拼接文件路径"
+    ],
+    "text": "文件路径用平台工具组合\nURL和文件路径分开处理，别都靠字符串加斜杠",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "跨平台shell",
+      "windows命令",
+      "mac命令差异"
+    ],
+    "text": "先确认命令由哪个shell解释\n能传程序和参数就直接传，减少两套引号规则互相打架",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "文件名大小写",
+      "linux找不到文件",
+      "mac大小写"
+    ],
+    "text": "导入名和真实文件名精确一致\n本机能找到不代表另一种文件系统也能找到",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "跨平台权限",
+      "执行位",
+      "脚本不能执行"
+    ],
+    "text": "看是缺执行权限还是解释器路径不对\n按实际系统处理，别拿一条命令套所有平台",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "临时文件",
+      "临时目录",
+      "临时文件泄漏"
+    ],
+    "text": "临时文件有明确所属目录\n结束和失败都清理，操作前确认目标路径没越界",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "递归删除",
+      "rm误删",
+      "remove-item路径"
+    ],
+    "text": "先确认最终绝对路径和允许范围\n变量为空或拼错时，别让删除命令继续执行",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "路径穿越",
+      "../路径",
+      "用户指定文件"
+    ],
+    "text": "路径解析后仍要检查访问边界\n不能只删掉几个字符就认为输入安全",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "命令注入",
+      "shell拼接",
+      "用户输入命令"
+    ],
+    "text": "不可信输入不直接拼进shell\n用参数数组和允许的动作集合，边界要在执行前",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "输入长度",
+      "无限输入",
+      "大文本攻击"
+    ],
+    "text": "给输入长度和处理成本设界限\n再做结构校验，别让一个请求占满所有资源",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "正则输入",
+      "不可信正则",
+      "用户正则"
+    ],
+    "text": "用户模式可能造成高成本匹配\n限制复杂度或用适合的安全方案，不要无边界运行",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "安全随机",
+      "随机令牌",
+      "math.random密钥"
+    ],
+    "text": "需要不可预测的令牌用安全随机源\n普通随机适合抽样，不适合认证秘密",
+    "mode": "explain",
+    "action": "explain"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "存储密钥",
+      "明文密码",
+      "凭据配置"
+    ],
+    "text": "凭据走合适的秘密存储\n示例文件只放占位值，别把真实值复制给所有人",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "最小权限",
+      "权限过大",
+      "服务账号"
+    ],
+    "text": "按任务真正需要授权\n用完的临时权限及时收回，别为了省事永久开满",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "依赖来源",
+      "恶意包",
+      "拼错包名"
+    ],
+    "text": "核对项目、包名和维护来源\n安装脚本也有执行能力，别把装依赖当纯读文件",
+    "mode": "explain",
+    "action": "judge"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "安全更新",
+      "漏洞公告",
+      "依赖漏洞"
+    ],
+    "text": "按受影响版本和实际使用路径判断\n需要升级时验证相关行为，别只改版本字符串",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "压缩包解压",
+      "zip slip",
+      "解压越界"
+    ],
+    "text": "解压前校验条目最终路径\n文件不能落到指定目录之外，绝对路径也要处理",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "符号链接",
+      "symlink越界",
+      "链接指向"
+    ],
+    "text": "路径边界还要考虑链接解析\n看实际访问目标，别只信表面目录前缀",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "跨平台编码",
+      "utf8文件",
+      "系统默认编码"
+    ],
+    "text": "文件编码明确约定\n中文和特殊字符各跑一个实际输入，别只测ASCII就下结论",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "系统时间",
+      "时区部署",
+      "utc与本地"
+    ],
+    "text": "保存、比较和展示分别选合适时间表示\n部署机器时区不是用户时区",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "跨平台与安全",
+    "keys": [
+      "取消清理",
+      "任务终止",
+      "停止后还运行"
+    ],
+    "text": "取消信号传到真正执行任务的地方\n停止输出、停止工作和释放资源都得有对应动作",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "npm install",
+      "npm安装失败",
+      "npm install报错"
+    ],
+    "text": "先看第一条真正的错误\n网络、权限和依赖冲突分别排\n只看最后一行安装失败还不够",
+    "mode": "explain",
+    "action": "plan"
+  },
+  {
+    "cat": "工具安装",
+    "keys": [
+      "npm ci",
+      "锁文件不一致",
+      "package-lock不匹配"
+    ],
+    "text": "npm ci要求锁文件与清单一致\n先确认变更意图，再用对应工具更新锁文件\n别在CI里随手删除锁文件绕过去",
+    "mode": "explain",
+    "action": "plan"
+  }
+]

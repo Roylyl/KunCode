@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../../base/common/product.js';
 import * as dom from '../../../../base/browser/dom.js';
 import { parentOriginHash } from '../../../../base/browser/iframe.js';
 import { mainWindow } from '../../../../base/browser/window.js';
@@ -305,7 +306,7 @@ export class WebWorkerExtensionHost extends Disposable implements IExtensionHost
 		const enabledApiProposalsFallback = await resolveEnabledApiProposalsFallbackExperiment(this._workbenchAssignmentService, this._productService.quality);
 		return {
 			commit: this._productService.commit,
-			version: this._productService.version,
+			version: getVscodeVersion(this._productService),
 			quality: this._productService.quality,
 			date: this._productService.date,
 			parentPid: 0,

@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../../base/common/product.js';
 import { VSBuffer } from '../../../../base/common/buffer.js';
 import { Emitter, Event } from '../../../../base/common/event.js';
 import { Disposable } from '../../../../base/common/lifecycle.js';
@@ -212,7 +213,7 @@ export class RemoteExtensionHost extends Disposable implements IExtensionHost {
 		const enabledApiProposalsFallback = await resolveEnabledApiProposalsFallbackExperiment(this._workbenchAssignmentService, this._productService.quality);
 		return {
 			commit: this._productService.commit,
-			version: this._productService.version,
+			version: getVscodeVersion(this._productService),
 			quality: this._productService.quality,
 			date: this._productService.date,
 			parentPid: remoteInitData.pid,

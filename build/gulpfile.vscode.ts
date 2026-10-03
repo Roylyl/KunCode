@@ -308,8 +308,9 @@ function packageTask(platform: string, arch: string, sourceFolderName: string, d
 			gulp.src([
 				'extensions/kuncode-kunkun-ai/**',
 				'extensions/theme-defaults/**',
-				'extensions/ms-ceintl.vscode-language-pack-zh-hans/**'
-			], { base: 'extensions', dot: true })
+				'extensions/ms-ceintl.vscode-language-pack-zh-hans/**',
+				'!extensions/kuncode-kunkun-ai/{test,tests,node_modules}/**'
+			], { base: '.', dot: true })
 		);
 
 		const sourceFilterPattern = stripSourceMapsInPackagingTasks
@@ -326,7 +327,7 @@ function packageTask(platform: string, arch: string, sourceFolderName: string, d
 		}
 
 		const name = product.nameShort;
-		const packageJsonUpdates: Record<string, unknown> = { name, version };
+		const packageJsonUpdates: Record<string, unknown> = { name, version, author: { name: '603' } };
 
 		if (platform === 'linux') {
 			packageJsonUpdates.desktopName = `${product.applicationName}.desktop`;
@@ -461,7 +462,6 @@ function packageTask(platform: string, arch: string, sourceFolderName: string, d
 			all = es.merge(all, gulp.src([
 				'resources/win32/bower.ico',
 				'resources/win32/c.ico',
-				'resources/win32/code.ico',
 				'resources/win32/config.ico',
 				'resources/win32/cpp.ico',
 				'resources/win32/csharp.ico',
@@ -489,11 +489,11 @@ function packageTask(platform: string, arch: string, sourceFolderName: string, d
 				'resources/win32/yaml.ico',
 				'resources/win32/code_70x70.png',
 				'resources/win32/code_150x150.png'
-			], { base: '.' }));
+			], { base: '.' }), gulp.src('resources/kuncode/{app-icon,installer-icon,uninstaller-icon}.ico', { base: '.' }));
 		} else if (platform === 'linux') {
 			const policyDest = gulp.src('.build/policies/linux/**', { base: '.build/policies/linux' })
 				.pipe(rename(f => f.dirname = `policies/${f.dirname}`));
-			all = es.merge(all, gulp.src('resources/linux/code.png', { base: '.' }), policyDest);
+			all = es.merge(all, gulp.src('resources/kuncode/app-icon.png', { base: '.' }).pipe(rename('resources/linux/code.png')), policyDest);
 		} else if (platform === 'darwin') {
 			const shortcut = gulp.src('resources/darwin/bin/code.sh')
 				.pipe(replace('@@APPNAME@@', product.applicationName))
@@ -572,6 +572,7 @@ function packageTask(platform: string, arch: string, sourceFolderName: string, d
 
 			result = es.merge(result, gulp.src('resources/win32/VisualElementsManifest.xml', { base: 'resources/win32' })
 				.pipe(replace('@@VERSIONFOLDER@@', versionedResourcesFolder ? `${versionedResourcesFolder}\\` : ''))
+				.pipe(replace('@@NAME_SHORT@@', product.nameShort))
 				.pipe(rename(product.nameShort + '.VisualElementsManifest.xml')));
 
 			result = es.merge(result, gulp.src('.build/policies/win32/**', { base: '.build/policies/win32' })
@@ -696,6 +697,10 @@ function prepareCopilotRipgrepShimTask(platform: string, arch: string, destinati
 		const appNodeModulesDir = path.join(appBase, 'node_modules.asar.unpacked');
 
 		const builtInCopilotExtensionDir = path.join(appBase, 'extensions', 'copilot');
+		if (!fs.existsSync(path.join(root, 'extensions', 'copilot')) && !fs.existsSync(builtInCopilotExtensionDir)) {
+			console.log('[package] Skipping the Copilot ripgrep shim: the optional built-in extension is absent.');
+			return;
+		}
 		prepareBuiltInCopilotRipgrepShim(platform, arch, builtInCopilotExtensionDir, appNodeModulesDir);
 	};
 }

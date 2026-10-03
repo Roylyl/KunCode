@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../../base/common/product.js';
 import { timeout } from '../../../../base/common/async.js';
 import { encodeBase64, VSBuffer } from '../../../../base/common/buffer.js';
 import { CancellationError } from '../../../../base/common/errors.js';
@@ -525,7 +526,7 @@ export class NativeLocalProcessExtensionHost extends Disposable implements IExte
 		const enabledApiProposalsFallback = await resolveEnabledApiProposalsFallbackExperiment(this._workbenchAssignmentService, this._productService.quality);
 		return {
 			commit: this._productService.commit,
-			version: this._productService.version,
+			version: getVscodeVersion(this._productService),
 			quality: this._productService.quality,
 			date: this._productService.date,
 			parentPid: 0,

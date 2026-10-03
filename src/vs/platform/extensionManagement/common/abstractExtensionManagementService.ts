@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 
+import { getVscodeVersion } from '../../../base/common/product.js';
 import { distinct, isNonEmptyArray } from '../../../base/common/arrays.js';
 import { Barrier, CancelablePromise, createCancelablePromise } from '../../../base/common/async.js';
 import { CancellationToken } from '../../../base/common/cancellation.js';
@@ -196,7 +197,7 @@ export abstract class AbstractExtensionManagementService extends CommontExtensio
 
 		await Promise.allSettled(extensions.map(async ({ extension, options }) => {
 			try {
-				const compatible = await this.checkAndGetCompatibleVersion(extension, !!options?.installGivenVersion, !!options?.installPreReleaseVersion, options.productVersion ?? { version: this.productService.version, date: this.productService.date });
+				const compatible = await this.checkAndGetCompatibleVersion(extension, !!options?.installGivenVersion, !!options?.installPreReleaseVersion, options.productVersion ?? { version: getVscodeVersion(this.productService), date: this.productService.date });
 				installableExtensions.push({ ...compatible, options });
 			} catch (error) {
 				results.push({ identifier: extension.identifier, operation: InstallOperation.Install, source: extension, error, profileLocation: options.profileLocation ?? this.getCurrentExtensionsManifestLocation() });
@@ -347,7 +348,7 @@ export abstract class AbstractExtensionManagementService extends CommontExtensio
 					isBuiltin,
 					isApplicationScoped,
 					profileLocation: isApplicationScoped ? this.userDataProfilesService.defaultProfile.extensionsResource : options.profileLocation ?? this.getCurrentExtensionsManifestLocation(),
-					productVersion: options.productVersion ?? { version: this.productService.version, date: this.productService.date }
+					productVersion: options.productVersion ?? { version: getVscodeVersion(this.productService), date: this.productService.date }
 				};
 
 				const existingInstallExtensionTask = !URI.isUri(extension) ? this.installingExtensions.get(getInstallExtensionTaskKey(extension, installExtensionTaskOptions.profileLocation)) : undefined;

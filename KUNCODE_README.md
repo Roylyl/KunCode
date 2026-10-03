@@ -1,23 +1,20 @@
-# KunCode
+# KunCode2.0.0
 
-KunCode is an independent cross-platform Code - OSS customization maintained by 603, with Windows and macOS support and a pixel-art capybara visual identity.
+KunCode is an independent Code - OSS customization maintained by 603. It combines the editor workbench with pixel-art capybara branding and the built-in Kunkun AI local chat assistant.
 
-## Current customization
+The 2.0.0 corpus contains 1,522 original scenes across programming, campus life, and everyday collaboration. Responses use weighted keyword matching, limited follow-up context, and recent-response avoidance. Kunkun AI does not use a remote model or web search and does not edit project files. Its style simulation does not represent a real person's statements.
 
-- Product branding: KunCode
-- Application/data identifiers: `kuncode` / `.kuncode`
-- Pixel capybara branding asset: `resources/kuncode/capybara-pixel.png`
-- macOS bundle identifier: `com.kuncode.app`
+Product identifiers remain `kuncode` and `.kuncode`; the macOS bundle identifier is `com.kuncode.app`. The Windows x64 installer is named `KunCode-Windows-x64-2.0.0.exe`.
 
-## Build prerequisites
+Application and workspace icons use the capybara app artwork. The Windows installer and wizard use the capybara with a blue installation arrow; the installed-apps list uses the red-cross uninstall artwork. Inno Setup shares the installer icon with its generated uninstaller executable. macOS application and DMG icons, and Linux package icons, also use the KunCode capybara assets.
 
-Use Node.js 24.18.0, or a newer release in the same 24.x line, as specified by [`.nvmrc`](.nvmrc). The install check requires npm below version 12 and rejects Yarn. From the repository root, run:
+Use Node.js24.18.0 or a newer release in the same 24.x line, with npm below version12. From the repository root:
 
 ```sh
 npm ci
 npm run compile
 ```
 
-Launch the development build with `./scripts/code.sh` on macOS/Linux or `.\scripts\code.bat` on Windows. Compilation output is placed under `.build/`, `out/`, and extension-specific output directories; release packaging is a separate platform-specific workflow. See the main [README](README.md) for current setup, validation, and packaging guidance.
+Launch with `./scripts/code.sh` on macOS/Linux or `.\scripts\code.bat` on Windows. See the main [README](README.md) for installation, assistant usage, corpus maintenance, and Windows packaging commands.
 
-This repository is based on Code - OSS and is not affiliated with Microsoft. Review [LICENSE.txt](LICENSE.txt) and [ThirdPartyNotices.txt](ThirdPartyNotices.txt) before redistribution.
+The project is not affiliated with Microsoft. Review [LICENSE.txt](LICENSE.txt), [ThirdPartyNotices.txt](ThirdPartyNotices.txt), and component-specific notices before redistribution.

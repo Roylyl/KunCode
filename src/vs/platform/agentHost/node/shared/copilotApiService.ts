@@ -10,6 +10,7 @@ import { getDevDeviceId, getMachineId } from '../../../../base/node/id.js';
 import { createDecorator } from '../../../instantiation/common/instantiation.js';
 import { IAgentHostGitHubEndpointService } from '../agentHostGitHubEndpointService.js';
 import { ILogService } from '../../../log/common/log.js';
+import { getVscodeVersion } from '../../../../base/common/product.js';
 import { IProductService } from '../../../product/common/productService.js';
 import { COPILOT_LICENSE_AGREEMENT } from '../../../endpoint/common/licenseAgreement.js';
 import { parseCopilotTokenFields } from '../copilot/copilotTokenFields.js';
@@ -763,7 +764,7 @@ export class CopilotApiService implements ICopilotApiService {
 			sessionId: generateUuid(),
 			machineId,
 			deviceId,
-			vscodeVersion: this._productService.version,
+			vscodeVersion: getVscodeVersion(this._productService),
 			version: this._productService.version,
 			buildType: this._productService.quality === 'stable' ? 'prod' : 'dev',
 		};
